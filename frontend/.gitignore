@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build output and cache
+build/
+dist/
+.cache/
+.tmp/
+
+# Coverage reports (if testing)
+coverage/
+
+# Static assets generated during build
+public/static/
+
+# Logs
+*.log
