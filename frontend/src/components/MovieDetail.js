@@ -26,7 +26,7 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await fetch('http://localhost:5008/api/movies'); // Adjust URL to your API endpoint
+                const response = await fetch('https://vegamovies2-0.onrender.com/api/movies'); // Adjust URL to your API endpoint
                 const data = await response.json();
                 setMovies(data);
             } catch (error) {
@@ -52,7 +52,7 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovie = async () => {
             try {
-                const response = await fetch(`http://localhost:5008/api/movies/${id}`);
+                const response = await fetch(`https://vegamovies2-0.onrender.com/api/movies/${id}`);
                 const data = await response.json();
                 setMovie(data);
                 fetchRelatedMovies(data.category, data.platform); // Fetch related movies
@@ -62,7 +62,7 @@ const MovieDetail = () => {
         };
         const fetchRelatedMovies = async (category, platform) => {
             try {
-                const response = await fetch(`http://localhost:5008/api/movies`);
+                const response = await fetch(`https://vegamovies2-0.onrender.com/api/movies`);
                 const data = await response.json();
                 const filtered = data.filter(
                     (m) => m.category === category && m.platform === platform && m._id !== id
