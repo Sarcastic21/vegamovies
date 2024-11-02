@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 
-    const cors = require('cors');
+
 app.use(cors({
     origin: 'https://vegamovies2-0-1.onrender.com ', // Replace with your frontend URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
