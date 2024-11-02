@@ -15,12 +15,22 @@ app.use(express.json()); // To parse incoming JSON requests
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 // MongoDB Atlas connection string
-const MONGODB_URI = process.env.MONGODB_URI; // Access the MongoDB URI from the environment
+const mongoose = require('mongoose');
 
-// Connect to MongoDB Atlas
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to MongoDB Atlas'))
-    .catch((err) => console.error('Error connecting to MongoDB Atlas:', err));
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch(err => console.error('MongoDB connection error:', err));
+
+
+    const cors = require('cors');
+app.use(cors({
+    origin: 'https://vegamovies2-0-1.onrender.com ', // Replace with your frontend URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+}));
 
 // Define the Movie schema and model
 const movieSchema = new mongoose.Schema({
