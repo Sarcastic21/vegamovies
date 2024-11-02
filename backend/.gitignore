@@ -10,7 +10,7 @@ config/jwt_secret.txt
 config/admin_password.txt
 
 
-#Envirment-variables
+# Environment variables
 .env
 
 
