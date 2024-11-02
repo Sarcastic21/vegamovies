@@ -9,6 +9,11 @@ public.key
 config/jwt_secret.txt
 config/admin_password.txt
 
+
+#Envirment-variables
+.env
+
+
 # Logs and debug files
 logs/
 *.log
