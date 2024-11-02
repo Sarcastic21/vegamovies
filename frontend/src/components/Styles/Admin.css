@@ -1,0 +1,100 @@
+/* General Styles for Both Pages */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* White text */
+}
+
+h1, h2 {
+    text-align: center;
+    margin: 20px 0;
+    font-weight: 600; /* Semi-bold titles */
+}
+
+/* Admin Page Styles */
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px; /* Padding around the page */
+}
+
+.admin-page-title {
+    font-size: 2.5rem; /* Larger title */
+    color: #ff4757; /* Accent color */
+    margin-bottom: 20px;
+}
+
+.admin-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    background-color: #1e1e1e; /* Darker form background */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Deeper shadow for depth */
+    width: 100%;
+    max-width: 400px; /* Max width for the form container */
+    transition: transform 0.3s ease;
+}
+
+.admin-form-container:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.admin-form-container input,
+.admin-form-container select {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid transparent; /* Initial border state */
+    background-color: #2c2c2c; /* Slightly lighter background */
+    color: #ffffff;
+    border-radius: 5px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-form-container input::placeholder {
+    color: #cccccc; /* Placeholder text color */
+}
+
+.admin-form-container input:focus,
+.admin-form-container select:focus {
+    outline: none;
+    border: 1px solid #ff4757; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(255, 71, 87, 0.5); /* Glow effect on focus */
+}
+
+.admin-form-container button {
+    padding: 15px;
+    margin-top: 15px;
+    background-color: #ff4757; /* Main button color */
+    color: #ffffff;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700; /* Bold text */
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.admin-form-container button:hover {
+    background-color: #ff6b81; /* Darker on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .admin-form-container {
+        width: 90%; /* Full width on smaller screens */
+        padding: 20px; /* Reduced padding */
+    }
+
+    h1, h2 {
+        font-size: 2rem; /* Slightly smaller font */
+    }
+}

@@ -1,0 +1,24 @@
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+
+# JWT and sensitive files
+private.key
+public.key
+config/jwt_secret.txt
+config/admin_password.txt
+
+# Logs and debug files
+logs/
+*.log
+
+# MongoDB dumps and backups
+*.gz
+dump/
+backup/
+
+# Temporary files
+.cache/
+tmp/
+dist/
