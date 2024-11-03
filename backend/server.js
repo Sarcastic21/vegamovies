@@ -4,54 +4,48 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
-
-
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 5008;
-// Use middleware
-app.use(cors()); // Enable CORS to allow requests from different origins
-app.use(express.json()); // To parse incoming JSON requests
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-// MongoDB Atlas connection string
 
+// MongoDB Atlas connection string
 console.log('Mongo URI:', process.env.MONGO_URI);
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB Atlas'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-
-
+// Use middleware
 app.use(cors({
-    origin: 'https://vegamovies2-0-1.onrender.com ', // Replace with your frontend URL
+    origin: 'https://vegamovies2-0-1.onrender.com', // Corrected: No trailing space
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
+app.use(express.json()); // To parse incoming JSON requests
+
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 // Define the Movie schema and model
 const movieSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     description2: { type: String, required: true },
-
     image: { type: String, required: true },
     image2: { type: String, required: true },
     image3: { type: String, required: true },
     image4: { type: String, required: true },
     image5: { type: String, required: true },
-
-
     link: { type: String },  // Only for movies
     category: { type: String, required: true },
     filesize: { type: String, required: true },
-
     seasons: { type: [String], default: [] },  // Array of links for Web Series seasons
     platform: { type: String, required: false } // New field to specify the platform
-    }, { timestamps: true });
+}, { timestamps: true });
 
 const Movie = mongoose.model('Movie', movieSchema);
+
+// API route for login
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -64,8 +58,6 @@ app.post('/api/login', (req, res) => {
         res.status(401).json({ auth: false, message: 'Invalid credentials' });
     }
 });
-
-
 
 // API route to get all movies or filter by category
 app.get('/api/movies', async (req, res) => {
@@ -96,7 +88,7 @@ app.get('/api/movies/:id', async (req, res) => {
 
 // API route to add a new movie/webseries
 app.post('/api/movies', async (req, res) => {
-    const { name, description,description2, image, image2,image3,image4,image5, link, category,filesize, seasons, platform } = req.body;
+    const { name, description, description2, image, image2, image3, image4, image5, link, category, filesize, seasons, platform } = req.body;
 
     // Validate category and handle the links based on the category type
     let movieData = {
