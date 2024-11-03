@@ -52,18 +52,26 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovie = async () => {
             try {
+                // Log the API base URL for debugging
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+                
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 setMovie(data);
-                fetchRelatedMovies(data.category, data.platform); // Fetch related movies
+                
+                // Fetch related movies based on category and platform
+                fetchRelatedMovies(data.category, data.platform);
             } catch (error) {
                 console.error('Error fetching movie:', error);
             }
         };
+    
         const fetchRelatedMovies = async (category, platform) => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
+    
+                // Filter related movies
                 const filtered = data.filter(
                     (m) => m.category === category && m.platform === platform && m._id !== id
                 );
@@ -73,8 +81,10 @@ const MovieDetail = () => {
                 console.error('Error fetching related movies:', error);
             }
         };
+    
         fetchMovie();
     }, [id]);
+    
 
     // Fetch related movies by category and platform
  

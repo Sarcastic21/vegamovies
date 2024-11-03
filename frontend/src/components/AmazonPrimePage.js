@@ -19,20 +19,29 @@ const AmazonPrimePage= () => {
         const fetchAmazonMovies = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
-                const data = await response.json();
-      
+                
+                // Check if the response is OK
+                if (!response.ok) {
+                    const errorData = await response.json(); // Attempt to read the error response
+                    throw new Error(errorData.message || 'Failed to fetch Amazon Prime movies');
+                }
+    
+                const data = await response.json(); // Parse the response only if the status is OK
+                
                 // Filter Amazon Prime movies and sort by the latest uploaded date (descending)
                 const amazonOnly = data
                     .filter(movie => movie.platform === 'AmazonPrime')
                     .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)); 
-      
+    
                 setAmazonMovies(amazonOnly);
             } catch (error) {
                 console.error('Error fetching Amazon Prime movies:', error);
+                alert(error.message); // Display the error message to the user
             }
         };
         fetchAmazonMovies();
-      }, []);
+    }, []);
+    
    
 
     // Filter movies based on search term

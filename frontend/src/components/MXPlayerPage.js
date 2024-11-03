@@ -17,19 +17,24 @@ const MXPlayerPage= () => {
     useEffect(() => {
         const fetchMxContent = async () => {
             try {
+                // Debugging the API base URL
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 
                 // Filter for MX Player and reverse to show latest first
                 const mxOnly = data.filter(item => item.platform === 'MxPlayer');
                 const sortedMxContent = mxOnly.reverse(); // Reverse to show latest movie first
+                
                 setMxContent(sortedMxContent);
             } catch (error) {
                 console.error('Error fetching MX Player content:', error);
             }
         };
+    
         fetchMxContent();
-      }, []);
+    }, []);
    
 
     // Filter movies based on search term

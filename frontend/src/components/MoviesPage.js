@@ -17,20 +17,25 @@ const MoviesPage= () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
+                // Debugging the API base URL
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
-      
-               
+                
+                // Filter for movies category
                 const moviesOnly = data.filter(movie => movie.category === 'movies');
-      
+    
+                // Reverse to show latest movies first
                 setMovies(moviesOnly.reverse());
-      
             } catch (error) {
                 console.error('Error fetching movies:', error);
             }
         };
+    
         fetchMovies();
-      }, []);
+    }, []);
+    
    
 
     // Filter movies based on search term

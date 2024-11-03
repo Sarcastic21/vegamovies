@@ -17,26 +17,23 @@ const NetflixPage= () => {
     useEffect(() => {
         const fetchNetflixContent = async () => {
             try {
+                // Debugging the API base URL
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
-      
-                // Filter for Netflix and reverse to show latest first (Solution 1)
+                
+                // Filter for Netflix and reverse to show latest first
                 const netflixOnly = data.filter(movie => movie.platform === 'Netflix');
                 setNetflixContent(netflixOnly.reverse()); // Reverse to show latest movie first
-      
-                // Uncomment below for Solution 2: Sort by 'createdAt' field
-                /*
-                const sortedNetflixContent = netflixOnly.sort(
-                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-                );
-                setNetflixContent(sortedNetflixContent);
-                */
+    
             } catch (error) {
                 console.error('Error fetching Netflix content:', error);
             }
         };
+        
         fetchNetflixContent();
-      }, []);
+    }, []);
    
 
     // Filter movies based on search term

@@ -17,18 +17,24 @@ const WebSeriesPage= () => {
     useEffect(() => {
         const fetchWebSeries = async () => {
             try {
-    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                // Debugging the API base URL
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 const seriesOnly = data
                     .filter(movie => movie.category === 'webseries')
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by latest
+                
                 setWebSeries(seriesOnly);
             } catch (error) {
                 console.error('Error fetching web series:', error);
             }
         };
+        
         fetchWebSeries();
-      }, []);
+    }, []);
+    
 
     // Filter movies based on search term
     const filteredMovies = movies.filter(movie =>

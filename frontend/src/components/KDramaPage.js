@@ -15,24 +15,32 @@ const KDramaPage= () => {
     
     // Fetch movies from the backend
   
-useEffect(() => {
-    const fetchKDramaContent = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
-            const data = await response.json();
-  
-            // Filter K-Drama movies and sort them by upload date (latest first)
-            const kDramaOnly = data
-                .filter(item => item.platform === 'K-Drama')
-                .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)); 
-  
-            setKDramaContent(kDramaOnly);
-        } catch (error) {
-            console.error('Error fetching K-Drama content:', error);
-        }
-    };
-    fetchKDramaContent();
-  }, []);
+    useEffect(() => {
+        const fetchKDramaContent = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+    
+                // Check if the response is OK
+                if (!response.ok) {
+                    const errorData = await response.json(); // Attempt to read the error response
+                    throw new Error(errorData.message || 'Failed to fetch K-Drama content');
+                }
+    
+                const data = await response.json(); // Parse the response only if the status is OK
+    
+                // Filter K-Drama movies and sort them by upload date (latest first)
+                const kDramaOnly = data
+                    .filter(item => item.platform === 'K-Drama')
+                    .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+    
+                setKDramaContent(kDramaOnly);
+            } catch (error) {
+                console.error('Error fetching K-Drama content:', error);
+                alert(error.message); // Display the error message to the user
+            }
+        };
+        fetchKDramaContent();
+    }, []);
    
 
     // Filter movies based on search term

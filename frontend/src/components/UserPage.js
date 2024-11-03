@@ -16,17 +16,25 @@ const UserPage = () => {
     // Fetch movies from the backend
     const fetchMovies = async () => {
         try {
-const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+    
+            // Check if the response is okay (status code 200-299)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
             const data = await response.json();
             setMovies(data.reverse()); // Reverse to show the latest movies first
         } catch (error) {
             console.error("Error fetching movies:", error);
+            // Optionally, you can set an error state to inform users if needed
         }
     };
-
+    
     useEffect(() => {
         fetchMovies();
     }, []);
+    
 
     // Filter movies based on search term
     const filteredMovies = movies.filter(movie =>

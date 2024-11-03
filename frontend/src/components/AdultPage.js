@@ -19,15 +19,26 @@ const AdultPage= () => {
         const fetchAdultContent = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
-                const data = await response.json();
+                
+                // Check if the response is OK
+                if (!response.ok) {
+                    const errorData = await response.json(); // Attempt to read the error response
+                    throw new Error(errorData.message || 'Failed to fetch Adult content');
+                }
+    
+                const data = await response.json(); // Parse the response only if the status is OK
+                
+                // Filter Adult content
                 const adultOnly = data.filter(item => item.platform === 'Adult');
                 setAdultContent(adultOnly);
             } catch (error) {
                 console.error('Error fetching Adult content:', error);
+                alert(error.message); // Display the error message to the user
             }
         };
         fetchAdultContent();
-      }, []);
+    }, []);
+    
    
 
     // Filter movies based on search term

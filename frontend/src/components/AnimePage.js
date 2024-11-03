@@ -19,18 +19,28 @@ const AnimePage= () => {
         const fetchAnimeMovies = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
-                const data = await response.json();
+                
+                // Check if the response is OK
+                if (!response.ok) {
+                    const errorData = await response.json(); // Attempt to read the error response
+                    throw new Error(errorData.message || 'Failed to fetch Anime movies');
+                }
+    
+                const data = await response.json(); // Parse the response only if the status is OK
+                
                 const animeOnly = data
                     .filter(movie => movie.platform === 'Anime')
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by latest
-      
+                
                 setAnimeMovies(animeOnly);
             } catch (error) {
                 console.error('Error fetching Anime movies:', error);
+                alert(error.message); // Display the error message to the user
             }
         };
         fetchAnimeMovies();
-      }, []);
+    }, []);
+    
    
 
     // Filter movies based on search term

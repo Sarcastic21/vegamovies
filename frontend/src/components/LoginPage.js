@@ -11,28 +11,31 @@ const Login = ({ setAuth }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
 
-      const data = await response.json();
+        // Check if the response is OK before parsing the JSON
+        if (!response.ok) {
+            const errorData = await response.json(); // Attempt to read the error response
+            throw new Error(errorData.message || 'Login failed'); // Throw an error with the message
+        }
 
-      if (response.ok) {
+        const data = await response.json(); // Parse the response only if the status is OK
+
         // Save the JWT token to local storage or cookies
         localStorage.setItem('token', data.token);
         setAuth(true); // Set authentication state
         navigate('/admin'); // Navigate to the admin page
-      } else {
-        alert(data.message || 'Login failed');
-      }
     } catch (err) {
-      console.error('Error during login:', err);
+        console.error('Error during login:', err);
+        alert(err.message); // Display the error message to the user
     }
-  };
+};
 
   return (
     <div className="login-page">

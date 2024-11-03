@@ -24,39 +24,44 @@ const AdminPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newMovie),
-        });
-
-        if (response.ok) {
-            setNewMovie({
-                name: '',
-                description: '',
-                description2: '',
-                image: '',
-                image2: '',
-                image3: '',
-
-                image4: '',
-                image5: '',
-
-
-
-                link: '',
-                category: '',
-                platform: '',
-                filesize:'',
-                seasons: [],
+    
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newMovie),
             });
-            console.log('Movie added successfully');
-        } else {
-            const errorData = await response.json();
-            console.error('Error adding movie/web series:', errorData);
+    
+            if (response.ok) {
+                // Reset the newMovie state after successful submission
+                setNewMovie({
+                    name: '',
+                    description: '',
+                    description2: '',
+                    image: '',
+                    image2: '',
+                    image3: '',
+                    image4: '',
+                    image5: '',
+                    link: '',
+                    category: '',
+                    platform: '',
+                    filesize: '',
+                    seasons: [],
+                });
+                console.log('Movie added successfully');
+                alert('Movie added successfully!'); // Notify user of success
+            } else {
+                const errorData = await response.json(); // Attempt to read the error response
+                console.error('Error adding movie/web series:', errorData);
+                alert(errorData.message || 'Failed to add movie.'); // Notify user of the error
+            }
+        } catch (error) {
+            console.error('Error during movie submission:', error);
+            alert('An error occurred while adding the movie. Please try again.'); // Notify user of network or other issues
         }
     };
+    
 
     const handleDelete = async () => {
         const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies/${deleteName}`, {

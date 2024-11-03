@@ -18,19 +18,27 @@ const DisneyPage= () => {
         const fetchDisneyContent = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
-                // Fetch all movies
-                const data = await response.json();
-                const disneyOnly = data
-                    .filter(item => item.platform === 'Disney+')
-                     // Sort by latest date
-      
+    
+                // Check if the response is OK
+                if (!response.ok) {
+                    const errorData = await response.json(); // Attempt to read the error response
+                    throw new Error(errorData.message || 'Failed to fetch Disney+ content');
+                }
+    
+                const data = await response.json(); // Parse the response only if the status is OK
+    
+                const disneyOnly = data.filter(item => item.platform === 'Disney+');
+                // Sort by latest date if needed, you can add sorting here
+                // disneyOnly.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+    
                 setDisneyContent(disneyOnly);
             } catch (error) {
                 console.error('Error fetching Disney+ content:', error);
+                alert(error.message); // Display the error message to the user
             }
         };
         fetchDisneyContent();
-      }, []);
+    }, []);
    
 
     // Filter movies based on search term
