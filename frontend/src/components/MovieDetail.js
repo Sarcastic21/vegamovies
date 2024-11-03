@@ -26,9 +26,9 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`); // Make sure to include '/api/movies'
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`); // Handle non-200 responses
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
                 setMovies(data);
@@ -47,18 +47,14 @@ const MovieDetail = () => {
         setFilteredMovies(filtered);
     }, [searchTerm, movies]);
 
-    // Get the 5 most recent movies
-    const recentMovies = movies
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 5);
-    // Fetch individual movie details
+    // Fetch individual movie details and related movies
     useEffect(() => {
         const fetchMovie = async () => {
             try {
-                // Log the API base URL for debugging
-                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
-                
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies/${id}`); // Correctly fetch the individual movie
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 setMovie(data);
                 
@@ -68,29 +64,28 @@ const MovieDetail = () => {
                 console.error('Error fetching movie:', error);
             }
         };
-    
+
         const fetchRelatedMovies = async (category, platform) => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
-    
+
                 // Filter related movies
                 const filtered = data.filter(
                     (m) => m.category === category && m.platform === platform && m._id !== id
                 );
-                const shuffled = shuffleArray(filtered); // Shuffle the filtered movies
+                const shuffled = shuffleArray(filtered); // Assuming shuffleArray is defined elsewhere
                 setRelatedMovies(shuffled);
             } catch (error) {
                 console.error('Error fetching related movies:', error);
             }
         };
-    
+
         fetchMovie();
     }, [id]);
-    
-
-    // Fetch related movies by category and platform
- 
 
     if (!movie) return <div>Loading...</div>;
 
