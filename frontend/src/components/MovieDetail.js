@@ -47,7 +47,11 @@ const MovieDetail = () => {
         setFilteredMovies(filtered);
     }, [searchTerm, movies]);
 
-    // Fetch individual movie details and related movies
+    // Get the 5 most recent movies
+    const recentMovies = movies
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 5);
+    // Fetch individual movie details
     useEffect(() => {
         const fetchMovie = async () => {
             try {
@@ -64,7 +68,7 @@ const MovieDetail = () => {
                 console.error('Error fetching movie:', error);
             }
         };
-
+    
         const fetchRelatedMovies = async (category, platform) => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
@@ -86,6 +90,10 @@ const MovieDetail = () => {
 
         fetchMovie();
     }, [id]);
+    
+
+    // Fetch related movies by category and platform
+ 
 
     if (!movie) return <div>Loading...</div>;
 
