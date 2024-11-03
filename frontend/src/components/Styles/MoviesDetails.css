@@ -113,9 +113,9 @@ h1{
         width: 100vw;
     }
     .MovieImage1{
-        padding:30px;
+       
         height: auto;
-        width: 100vw;
+        width: 90vw;
     }
 }
 @media (min-width: 768px) {
