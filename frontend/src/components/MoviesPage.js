@@ -136,7 +136,7 @@ const MoviesPage= () => {
   <span className="closebtn">x</span>
   Simply <strong>Comment on Post</strong> if you found any Broken Link; we will fix it for you within the next 24 Hours with Guaranteed and Great Support.
 </div>
-            <h1 className='C-1'>Latest</h1>
+            <h1 className='C-1'>MOVIES</h1>
 
             {/* Movie Grid */}
             <div className="movie-grid">

@@ -110,11 +110,12 @@ h1{
         margin-top: 1vh;
         display: block;
         height: auto;
-        width: 75vw;
+        width: 100vw;
     }
     .MovieImage1{
-        height: 62vh;
-        width: auto;
+       
+        height: auto;
+        width: 90vw;
     }
 }
 @media (min-width: 768px) {
