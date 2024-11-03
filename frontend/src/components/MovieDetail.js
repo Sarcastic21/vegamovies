@@ -10,114 +10,108 @@ const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
 };
 
-const MovieDetail = () => {
-    const { id } = useParams();
-    const [movie, setMovie] = useState(null);
-    const [relatedMovies, setRelatedMovies] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const moviesPerPage = 6; // Number of movies to display per page
-    const navigate = useNavigate();
-    const [showMenu, setShowMenu] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [movies, setMovies] = useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]);
 
-    // Fetch movies data on component mount
-    useEffect(() => {
-        const fetchMovies = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setMovies(data);
-            } catch (error) {
-                console.error('Error fetching movies:', error);
-            }
-        };
-        fetchMovies();
-    }, []);
-
-    // Filter movies based on search term
-    useEffect(() => {
-        const filtered = movies.filter(movie =>
-            movie.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredMovies(filtered);
-    }, [searchTerm, movies]);
-
-    // Get the 5 most recent movies
-    const recentMovies = movies
+        const MovieDetail = () => {
+            const { id } = useParams();
+            const [movie, setMovie] = useState(null);
+            const [relatedMovies, setRelatedMovies] = useState([]);
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const moviesPerPage = 6;
+            const navigate = useNavigate();
+            const [showMenu, setShowMenu] = useState(false);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [movies, setMovies] = useState([]);
+            const [filteredMovies, setFilteredMovies] = useState([]);
+        
+            // Fetch movies data on component mount
+            useEffect(() => {
+                const fetchMovies = async () => {
+                    try {
+                        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        setMovies(data);
+                    } catch (error) {
+                        console.error('Error fetching movies:', error);
+                    }
+                };
+                fetchMovies();
+            }, []);
+        
+            const recentMovies = movies
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 5);
-    // Fetch individual movie details
-    useEffect(() => {
-        const fetchMovie = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies/${id}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log('Fetched movie data:', data); // Log the fetched data
-                setMovie(data);
-    
-                // Fetch related movies based on category and platform
-                fetchRelatedMovies(data.category, data.platform);
-            } catch (error) {
-                console.error('Error fetching movie:', error);
-            }
-        };
-    
-        const fetchRelatedMovies = async (category, platform) => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-    
-                // Filter related movies
-                const filtered = data.filter(
-                    (m) => m.category === category && m.platform === platform && m._id !== id
+        .slice(0, 5); 
+            // Filter movies based on search term
+            useEffect(() => {
+                const filtered = movies.filter(movie =>
+                    movie.name.toLowerCase().includes(searchTerm.toLowerCase())
                 );
-                const shuffled = shuffleArray(filtered); // Assuming shuffleArray is defined elsewhere
-                setRelatedMovies(shuffled);
-            } catch (error) {
-                console.error('Error fetching related movies:', error);
-            }
-        };
-    
-        fetchMovie();
-    }, [id]);
-    
-    
-
-    // Fetch related movies by category and platform
- 
-
-    if (!movie) return <div>Loading...</div>;
-
-    const formattedDate = new Date(movie.createdAt).toLocaleDateString();
-
-    // Function to handle the next button click
-    const handleNext = () => {
-        if (currentIndex + moviesPerPage < relatedMovies.length) {
-            setCurrentIndex(currentIndex + moviesPerPage);
-        }
-    };
-
-    // Function to handle the previous button click
-    const handlePrevious = () => {
-        if (currentIndex - moviesPerPage >= 0) {
-            setCurrentIndex(currentIndex - moviesPerPage);
-        }
-    };
-
-    // Determine the movies to display based on the current index
-    const displayedMovies = relatedMovies.slice(currentIndex, currentIndex + moviesPerPage);
-
+                setFilteredMovies(filtered);
+            }, [searchTerm, movies]);
+        
+            // Fetch individual movie details and related movies
+            useEffect(() => {
+                const fetchMovie = async () => {
+                    try {
+                        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies/${id}`); // Correctly fetch the individual movie
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        setMovie(data);
+                        
+                        // Fetch related movies based on category and platform
+                        fetchRelatedMovies(data.category, data.platform);
+                    } catch (error) {
+                        console.error('Error fetching movie:', error);
+                    }
+                };
+        
+                const fetchRelatedMovies = async (category, platform) => {
+                    try {
+                        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+        
+                        // Filter related movies
+                        const filtered = data.filter(
+                            (m) => m.category === category && m.platform === platform && m._id !== id
+                        );
+                        const shuffled = shuffleArray(filtered); // Assuming shuffleArray is defined elsewhere
+                        setRelatedMovies(shuffled);
+                    } catch (error) {
+                        console.error('Error fetching related movies:', error);
+                    }
+                };
+        
+                fetchMovie();
+            }, [id]);
+        
+            if (!movie) return <div>Loading...</div>;
+        
+            const formattedDate = new Date(movie.createdAt).toLocaleDateString();
+        
+            // Function to handle the next button click
+            const handleNext = () => {
+                if (currentIndex + moviesPerPage < relatedMovies.length) {
+                    setCurrentIndex(currentIndex + moviesPerPage);
+                }
+            };
+        
+            // Function to handle the previous button click
+            const handlePrevious = () => {
+                if (currentIndex - moviesPerPage >= 0) {
+                    setCurrentIndex(currentIndex - moviesPerPage);
+                }
+            };
+        
+            // Determine the movies to display based on the current index
+            const displayedMovies = relatedMovies.slice(currentIndex, currentIndex + moviesPerPage);
+        
     return (
         <>
             <h1 className='logo'>
