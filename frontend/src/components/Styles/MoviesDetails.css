@@ -113,8 +113,8 @@ h1{
         width: 100vw;
     }
     .MovieImage1{
-        height: 62vh;
-        width: auto;
+        height: auto;
+        width: 100vw;
     }
 }
 @media (min-width: 768px) {
