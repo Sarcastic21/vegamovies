@@ -26,7 +26,10 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/movies`); // Make sure to include '/api/movies'
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`); // Handle non-200 responses
+                }
                 const data = await response.json();
                 setMovies(data);
             } catch (error) {
