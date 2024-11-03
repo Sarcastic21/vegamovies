@@ -163,6 +163,7 @@ body {
 }
 
 .movie-card {
+  margin-right:1vw;
   text-decoration: none;
   color: white;
   position: relative;
