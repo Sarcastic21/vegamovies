@@ -7,7 +7,7 @@ import UserPage from './components/UserPage';
 import MoviesPage from './components/MoviesPage';
 import WebSeriesPage from './components/WebSeriesPage';
 import MovieDetail from './components/MovieDetail';
-import NetflixPage from './components/Netflix.Page';
+import NetflixPage from './components/NetflixPage';
 import AnimePage from './components/AnimePage';
 import MXPlayerPage from './components/MXPlayerPage';
 import DisneyPage from './components/DisneyPage';

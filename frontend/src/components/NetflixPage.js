@@ -17,7 +17,7 @@ const NetflixPage= () => {
     useEffect(() => {
         const fetchNetflixContent = async () => {
             try {
-                const response = await fetch('http://localhost:5008/api/movies'); // Fetch all movies
+                const response = await fetch('https://vegamovies2-0.onrender.com/api/movies'); // Fetch all movies
                 const data = await response.json();
       
                 // Filter for Netflix and reverse to show latest first (Solution 1)
