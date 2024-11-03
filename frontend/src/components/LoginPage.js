@@ -11,7 +11,7 @@ const Login = ({ setAuth }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://vegamovies2-0.onrender.com/api/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

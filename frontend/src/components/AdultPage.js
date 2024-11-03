@@ -18,7 +18,7 @@ const AdultPage= () => {
     useEffect(() => {
         const fetchAdultContent = async () => {
             try {
-                const response = await fetch('http://localhost:5008/api/movies');
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 const adultOnly = data.filter(item => item.platform === 'Adult');
                 setAdultContent(adultOnly);

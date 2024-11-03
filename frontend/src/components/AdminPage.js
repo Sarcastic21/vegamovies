@@ -25,7 +25,7 @@ const AdminPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('https://vegamovies2-0.onrender.com/api/movies', {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newMovie),
@@ -59,7 +59,7 @@ const AdminPage = () => {
     };
 
     const handleDelete = async () => {
-        const response = await fetch(`https://vegamovies2-0.onrender.com/api/movies/${deleteName}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies/${deleteName}`, {
             method: 'DELETE',
         });
 

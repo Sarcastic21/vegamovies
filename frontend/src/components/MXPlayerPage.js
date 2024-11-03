@@ -17,7 +17,7 @@ const MXPlayerPage= () => {
     useEffect(() => {
         const fetchMxContent = async () => {
             try {
-                const response = await fetch('https://vegamovies2-0.onrender.com/api/movies'); // Fetch all movies
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 
                 // Filter for MX Player and reverse to show latest first

@@ -17,7 +17,8 @@ const DisneyPage= () => {
     useEffect(() => {
         const fetchDisneyContent = async () => {
             try {
-                const response = await fetch('https://vegamovies2-0.onrender.com/api/movies'); // Fetch all movies
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                // Fetch all movies
                 const data = await response.json();
                 const disneyOnly = data
                     .filter(item => item.platform === 'Disney+')
