@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 // Use middleware
 app.use(cors({
-    origin: 'https://vegamovies2-0-1.onrender.com', // Corrected: No trailing space
+    origin: 'https://vegamovies-kappa.vercel.app', // Corrected: No trailing space
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
