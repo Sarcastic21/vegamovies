@@ -16,11 +16,23 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .catch(err => console.error('MongoDB connection error:', err));
 
 // Use middleware
+const allowedOrigins = [
+    'https://vegamovies-kappa.vercel.app',
+    'https://another-allowed-origin.com', // Add other allowed origins here
+];
+
 app.use(cors({
-    origin: 'https://vegamovies-kappa.vercel.app', // Corrected: No trailing space
+    origin: (origin, callback) => {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, origin);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
+
 app.use(express.json()); // To parse incoming JSON requests
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
