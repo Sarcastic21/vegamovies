@@ -153,8 +153,6 @@ const AdminPage = () => {
                     onChange={(e) => setNewMovie({ ...newMovie, filesize: e.target.value })}
                     required
                 />
-           
-
                 <select className='CATEGORY' value={newMovie.category} onChange={handleCategoryChange}>
                     <option value="">Select Category (Optional)</option>
                     <option value="movies">Movies</option>
