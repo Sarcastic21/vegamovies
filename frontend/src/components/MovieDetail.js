@@ -18,6 +18,7 @@ const MovieDetail = () => {
     const moviesPerPage = 6; // Number of movies to display per page
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -25,9 +26,9 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`); // Use the environment variable
+                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies); // Use the environment variable
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`); // Check for errors
+                    throw new Error(HTTP error! status: ${response.status}); // Check for errors
                 }
                 const data = await response.json();
                 setMovies(data);
@@ -39,7 +40,12 @@ const MovieDetail = () => {
     }, []);
 
     // Filter movies based on search term
-  
+    useEffect(() => {
+        const filtered = movies.filter(movie =>
+            movie.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredMovies(filtered);
+    }, [searchTerm, movies]);
 
     // Get the 5 most recent movies
     const recentMovies = movies
@@ -49,9 +55,9 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovie = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}`);
+                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies/${id});
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(HTTP error! status: ${response.status});
                 }
                 const data = await response.json();
                 setMovie(data);
@@ -63,9 +69,9 @@ const MovieDetail = () => {
     
         const fetchRelatedMovies = async (category, platform) => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(HTTP error! status: ${response.status});
                 }
                 const data = await response.json();
                 const filtered = data.filter(
@@ -167,7 +173,8 @@ const MovieDetail = () => {
 
             {/* Search bar */}
             <div className="search-container">
-       <input
+
+                   <input
     type="text"
     id="search"                 // Added id attribute
     name="search"               // Added name attribute
@@ -184,7 +191,7 @@ const MovieDetail = () => {
                 <div className="search-results">
                     {filteredMovies.map((movie) => (
                         <Link
-                            to={`/movies/${movie._id}`}
+                            to={/movies/${movie._id}}
                             key={movie._id}
                             className="search-result-item"
                         >
@@ -193,6 +200,16 @@ const MovieDetail = () => {
                     ))}
                 </div>
             )}
+            <input
+    type="text"
+    id="search1"                 // Added id attribute
+    name="search1"               // Added name attribute
+    placeholder="What are you looking for?"
+    className="search-bar1"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    autoComplete="off"          // Optional: turn off autocomplete
+/>
 
             <button className="search-button">
                 <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
@@ -268,7 +285,7 @@ const MovieDetail = () => {
             <div className="movie-grid">
                 {displayedMovies.length > 0 ? (
                     displayedMovies.map((related) => (
-                        <Link to={`/movies/${related._id}`} key={related._id} className="movie-card">
+                        <Link to={/movies/${related._id}} key={related._id} className="movie-card">
                             <img
                                 src={related.image}
                                 alt={related.name}
@@ -310,7 +327,7 @@ const MovieDetail = () => {
                 <div className="search-results">
                     {filteredMovies.map((movie) => (
                         <Link
-                            to={`/movies/${movie._id}`}
+                            to={/movies/${movie._id}}
                             key={movie._id}
                             className="search-result-item"
                         >
@@ -329,7 +346,7 @@ const MovieDetail = () => {
                 <ul>
                     {recentMovies.map((movie) => (
                         <li key={movie._id}>
-                            <Link to={`/movies/${movie._id}`}>
+                            <Link to={/movies/${movie._id}}>
                                 {movie.name}
                             </Link>
                         </li>
