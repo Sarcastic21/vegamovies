@@ -18,7 +18,6 @@ const MovieDetail = () => {
     const moviesPerPage = 6; // Number of movies to display per page
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -40,12 +39,7 @@ const MovieDetail = () => {
     }, []);
 
     // Filter movies based on search term
-    useEffect(() => {
-        const filtered = movies.filter(movie =>
-            movie.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredMovies(filtered);
-    }, [searchTerm, movies]);
+  
 
     // Get the 5 most recent movies
     const recentMovies = movies
@@ -173,16 +167,32 @@ const MovieDetail = () => {
 
             {/* Search bar */}
             <div className="search-container">
-            <input
+       <input
     type="text"
-    id="search1"                 // Added id attribute
-    name="search1"               // Added name attribute
+    id="search"                 // Added id attribute
+    name="search"               // Added name attribute
     placeholder="What are you looking for?"
     className="search-bar1"
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
     autoComplete="off"          // Optional: turn off autocomplete
 />
+
+
+            {/* Filtered Movie Results */}
+            {searchTerm && (
+                <div className="search-results">
+                    {filteredMovies.map((movie) => (
+                        <Link
+                            to={`/movies/${movie._id}`}
+                            key={movie._id}
+                            className="search-result-item"
+                        >
+                            {movie.name}
+                        </Link>
+                    ))}
+                </div>
+            )}
 
             <button className="search-button">
                 <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
