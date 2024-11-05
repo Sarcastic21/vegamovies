@@ -153,51 +153,48 @@ const AdminPage = () => {
                     onChange={(e) => setNewMovie({ ...newMovie, filesize: e.target.value })}
                     required
                 />
-<select className='CATEGORY' value={newMovie.category} onChange={handleCategoryChange}>
-    <option value="">Select Category (Optional)</option>
-    <option value="movies">Movies</option>
-    <option value="webseries">Web Series</option>
-</select>
-
-<select className='PLATFORM' value={newMovie.platform} onChange={(e) => setNewMovie({ ...newMovie, platform: e.target.value })}>
-    <option value="">Select Platform</option>
-    <option value="Netflix">Netflix</option>
-    <option value="AmazonPrime">Amazon Prime</option>
-    <option value="Disney+">Disney+</option>
-    <option value="K-Drama">K-Drama</option>
-    <option value="Adult">Adult</option>
-    <option value="MxPlayer">MxPlayer</option>
-    <option value="Anime">Anime</option>
-</select>
-
-{/* Download Link Input - Available by Default */}
-<input
-    type="text"
-    placeholder="Download Link"
-    value={newMovie.link}
-    onChange={(e) => setNewMovie({ ...newMovie, link: e.target.value })}
-/>
-
-{/* Conditionally Render Season Links for Web Series */}
-{newMovie.category === 'webseries' && (
-    <div>
-        <h3>Add Season Links (Optional):</h3>
-        {newMovie.seasons.map((season, index) => (
-            <input
-                key={index}
-                type="text"
-                placeholder={`Season ${index + 1} Link (Optional)`}
-                value={season}
-                onChange={(e) => {
-                    const updatedSeasons = [...newMovie.seasons];
-                    updatedSeasons[index] = e.target.value;
-                    setNewMovie({ ...newMovie, seasons: updatedSeasons });
-                }}
-            />
-        ))}
-    </div>
-)}
-
+                <select className='CATEGORY' value={newMovie.category} onChange={handleCategoryChange}>
+                    <option value="">Select Category (Optional)</option>
+                    <option value="movies">Movies</option>
+                    <option value="webseries">Web Series</option>
+                </select>
+                <select className='PLATFORM' value={newMovie.platform} onChange={(e) => setNewMovie({ ...newMovie, platform: e.target.value })} >
+                    <option value="">Select Platform </option>
+                    <option value="Netflix">Netflix</option>
+                    <option value="AmazonPrime">Amazon Prime</option>
+                    <option value="Disney+">Disney+</option>
+                    <option value="K-Drama">K-Drama</option>
+                    <option value="Adult">Adult</option>
+                    <option value="MxPlayer">MxPlayer</option>
+                    <option value="Anime">Anime</option>
+                </select>
+                {newMovie.category === 'movies' && (
+                    <input
+                        type="text"
+                        placeholder="Download Link"
+                        value={newMovie.link}
+                        onChange={(e) => setNewMovie({ ...newMovie, link: e.target.value })}
+                        required
+                    />
+                )}
+                {newMovie.category === 'webseries' && (
+                    <div>
+                        <h3>Add Season Links (Optional):</h3>
+                        {newMovie.seasons.map((season, index) => (
+                            <input
+                                key={index}
+                                type="text"
+                                placeholder={`Season ${index + 1} Link (Optional)`}
+                                value={season}
+                                onChange={(e) => {
+                                    const updatedSeasons = [...newMovie.seasons];
+                                    updatedSeasons[index] = e.target.value;
+                                    setNewMovie({ ...newMovie, seasons: updatedSeasons });
+                                }}
+                            />
+                        ))}
+                    </div>
+                )}
                 <button type="submit">Add Movie/Web Series</button>
             </form>
             <h2>Delete Movie/Web Series</h2>
