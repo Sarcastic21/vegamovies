@@ -26,9 +26,9 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`); // Use the environment variable
+                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies); // Use the environment variable
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`); // Check for errors
+                    throw new Error(HTTP error! status: ${response.status}); // Check for errors
                 }
                 const data = await response.json();
                 setMovies(data);
@@ -55,9 +55,9 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchMovie = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies/${id}`);
+                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies/${id});
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(HTTP error! status: ${response.status});
                 }
                 const data = await response.json();
                 setMovie(data);
@@ -69,9 +69,9 @@ const MovieDetail = () => {
     
         const fetchRelatedMovies = async (category, platform) => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(HTTP error! status: ${response.status});
                 }
                 const data = await response.json();
                 const filtered = data.filter(
@@ -156,7 +156,7 @@ const MovieDetail = () => {
 
             {/* Buttons to navigate between UserPage, Movies, and WebSeries */}
             <div className='nav-buttons2'>
-                <button className='nav-button3' onClick={() => navigate('/')}>Home</button>
+                <button className='nav-button3' onClick={() => navigate('/')}>ALL</button>
                 <button className='nav-button4' onClick={() => navigate('/movies')}>Movies</button>
                 <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
             </div>
@@ -173,6 +173,8 @@ const MovieDetail = () => {
 
             {/* Search bar */}
             <div className="search-container">
+
+           
             <input
     type="text"
     id="search1"                 // Added id attribute
@@ -258,7 +260,7 @@ const MovieDetail = () => {
             <div className="movie-grid">
                 {displayedMovies.length > 0 ? (
                     displayedMovies.map((related) => (
-                        <Link to={`/movies/${related._id}`} key={related._id} className="movie-card">
+                        <Link to={/movies/${related._id}} key={related._id} className="movie-card">
                             <img
                                 src={related.image}
                                 alt={related.name}
@@ -300,7 +302,7 @@ const MovieDetail = () => {
                 <div className="search-results">
                     {filteredMovies.map((movie) => (
                         <Link
-                            to={`/movies/${movie._id}`}
+                            to={/movies/${movie._id}}
                             key={movie._id}
                             className="search-result-item"
                         >
@@ -319,7 +321,7 @@ const MovieDetail = () => {
                 <ul>
                     {recentMovies.map((movie) => (
                         <li key={movie._id}>
-                            <Link to={`/movies/${movie._id}`}>
+                            <Link to={/movies/${movie._id}}>
                                 {movie.name}
                             </Link>
                         </li>
