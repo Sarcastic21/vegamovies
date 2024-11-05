@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 const allowedOrigins = [
     'https://vegamovies-kappa.vercel.app',
     'https://vegamoviesworld.vercel.app',
-    'https://vegamoviesworld-silk.vercel.app' // Add other allowed origins here
+    'https://vegamoviesworld-silk.vercel.app', // Add other allowed origins here
 ];
 
 app.use(cors({
