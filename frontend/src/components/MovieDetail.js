@@ -254,7 +254,7 @@ const MovieDetail = () => {
                 <h3 className='D1' >Winding Up ❤️</h3>
                 <p>Thank You For Visiting Vegamovies The Prefect Spot For HD Dual Audio (Hindi-English) Movies & TV Series Download. So Please Keep Downloading & Keep Sharing. Enjoy!</p>
                 </div>
-                <h4 >More -</h4>
+                <h4 >More-</h4>
             <div className="movie-grid">
                 {displayedMovies.length > 0 ? (
                     displayedMovies.map((related) => (
