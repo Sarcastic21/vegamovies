@@ -174,32 +174,7 @@ const MovieDetail = () => {
             {/* Search bar */}
             <div className="search-container">
 
-                   <input
-    type="text"
-    id="search"                 // Added id attribute
-    name="search"               // Added name attribute
-    placeholder="What are you looking for?"
-    className="search-bar1"
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-    autoComplete="off"          // Optional: turn off autocomplete
-/>
-
-
-            {/* Filtered Movie Results */}
-            {searchTerm && (
-                <div className="search-results">
-                    {filteredMovies.map((movie) => (
-                        <Link
-                            to={/movies/${movie._id}}
-                            key={movie._id}
-                            className="search-result-item"
-                        >
-                            {movie.name}
-                        </Link>
-                    ))}
-                </div>
-            )}
+           
             <input
     type="text"
     id="search1"                 // Added id attribute
