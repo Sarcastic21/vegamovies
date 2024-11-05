@@ -23,21 +23,22 @@ const MovieDetail = () => {
     const [filteredMovies, setFilteredMovies] = useState([]);
 
     // Fetch movies data on component mount
-    useEffect(() => {
-        const fetchMovies = async () => {
-            try {
-                const response = await fetch(${process.env.REACT_APP_API_BASE_URL}/movies); // Use the environment variable
-                if (!response.ok) {
-                    throw new Error(HTTP error! status: ${response.status}); // Check for errors
-                }
-                const data = await response.json();
-                setMovies(data);
-            } catch (error) {
-                console.error('Error fetching movies:', error);
+  useEffect(() => {
+    const fetchMovies = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`); // Use backticks here
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`); // Use backticks here as well
             }
-        };
-        fetchMovies();
-    }, []);
+            const data = await response.json();
+            setMovies(data);
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
+    };
+    fetchMovies();
+}, []);
+
 
     // Filter movies based on search term
     useEffect(() => {
