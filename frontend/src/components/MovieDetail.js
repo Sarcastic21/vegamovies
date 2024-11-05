@@ -174,15 +174,15 @@ const MovieDetail = () => {
             {/* Search bar */}
             <div className="search-container">
             <input
-    type="text"
-    id="search1"                 // Added id attribute
-    name="search1"               // Added name attribute
-    placeholder="What are you looking for?"
-    className="search-bar1"
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-    autoComplete="off"          // Optional: turn off autocomplete
-/>
+                 type="text"
+                 id="search1"                 // Added id attribute
+                 name="search1"               // Added name attribute
+                 placeholder="What are you looking for?"
+                 className="search-bar1"
+                 value={searchTerm}
+                 onChange={(e) => setSearchTerm(e.target.value)}
+                autoComplete="off"          // Optional: turn off autocomplete
+            />
 
             <button className="search-button">
                 <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
@@ -190,10 +190,10 @@ const MovieDetail = () => {
         </div>
             <hr className='hr' />
             <div className="alert">
-  <span className="closebtn" >x</span>
-  Simply <strong>Comment on Post</strong> if you found any Broken Link; we will fix it for you within the next 24 Hours with Guaranteed and Great Support.
-</div>
-</div>
+            <span className="closebtn" >x</span>
+              Simply <strong>Comment on Post</strong> if you found any Broken Link; we will fix it for you within the next 24 Hours with Guaranteed and Great Support.
+            </div>
+        </div>
             <hr className='hr' />
 
             <div  className='Container'>
