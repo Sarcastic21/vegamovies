@@ -79,7 +79,7 @@ const DisneyPage= () => {
            
             <div className="nav-container">
             <div className="desktop-menu">
-                <button className="nav-button" onClick={() => navigate('/')}>Home</button>
+                <button className="nav-button" onClick={() => navigate('/')}>ALL</button>
                 <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
                 <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
                 <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
