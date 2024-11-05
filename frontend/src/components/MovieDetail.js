@@ -156,7 +156,7 @@ const MovieDetail = () => {
 
             {/* Buttons to navigate between UserPage, Movies, and WebSeries */}
             <div className='nav-buttons2'>
-                <button className='nav-button3' onClick={() => navigate('/')}>Home</button>
+                <button className='nav-button3' onClick={() => navigate('/')}>ALL</button>
                 <button className='nav-button4' onClick={() => navigate('/movies')}>Movies</button>
                 <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
             </div>
