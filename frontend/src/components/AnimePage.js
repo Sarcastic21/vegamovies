@@ -83,7 +83,7 @@ const AnimePage= () => {
            
             <div className="nav-container">
             <div className="desktop-menu">
-                <button className="nav-button" onClick={() => navigate('/')}>Home</button>
+                <button className="nav-button" onClick={() => navigate('/')}>Dual Audio</button>
                 <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
                 <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
                 <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
