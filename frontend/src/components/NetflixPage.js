@@ -35,7 +35,9 @@ const NetflixPage= () => {
         fetchNetflixContent();
     }, []);
    
-
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
     // Filter movies based on search term
     const filteredMovies = movies.filter(movie =>
         movie.name.toLowerCase().includes(searchTerm.toLowerCase())

@@ -17,30 +17,27 @@ const DisneyPage= () => {
     useEffect(() => {
         const fetchDisneyContent = async () => {
             try {
+                // Debugging the API base URL
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const data = await response.json();
+                
+                // Filter for Netflix and reverse to show latest first
+                const DisneyOnly = data.filter(movie => movie.platform === 'Disney+');
+                setDisneyContent(DisneyOnly.reverse()); // Reverse to show latest movie first
     
-                // Check if the response is OK
-                if (!response.ok) {
-                    const errorData = await response.json(); // Attempt to read the error response
-                    throw new Error(errorData.message || 'Failed to fetch Disney+ content');
-                }
-    
-                const data = await response.json(); // Parse the response only if the status is OK
-    
-                const disneyOnly = data.filter(item => item.platform === 'Disney+');
-                // Sort by latest date if needed, you can add sorting here
-                // disneyOnly.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-    
-                setDisneyContent(disneyOnly);
             } catch (error) {
-                console.error('Error fetching Disney+ content:', error);
-                alert(error.message); // Display the error message to the user
+                console.error('Error fetching Netflix content:', error);
             }
         };
+        
         fetchDisneyContent();
     }, []);
    
-
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
     // Filter movies based on search term
     const filteredMovies = movies.filter(movie =>
         movie.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -144,7 +141,7 @@ const DisneyPage= () => {
   <span className="closebtn">x</span>
   Simply <strong>Comment on Post</strong> if you found any Broken Link; we will fix it for you within the next 24 Hours with Guaranteed and Great Support.
 </div>
-            <h1 className='C-1'>DISNEY+</h1>
+            <h1 className='C-1'>Disney+</h1>
 
             {/* Movie Grid */}
             <div className="movie-grid">
@@ -199,7 +196,7 @@ const DisneyPage= () => {
                     <p><span className="dot-text">Vega</span> Movies</p>
                     <p  onClick={() => navigate('/privacy')}>Privacy</p>
 
-                    <p>Contact us: <a href='vegamovies.com' >Vegamovies@gmail.com</a></p>
+                    <p>Contact us: <a href='vegamovies.com'>Vegamovies@gmail.com</a></p>
                 </div>
             </footer>
         </>

@@ -4,7 +4,7 @@ import img10 from '../components/P1.png';
 import { FaSearch } from 'react-icons/fa';
 
 const AmazonPrimePage= () => {
-    const [movies, setAmazonMovies] = useState([]);
+    const [movies, setAmazonContent] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // Add state for current page
     const moviesPerPage = 24; // Number of movies to display per page
@@ -14,36 +14,29 @@ const AmazonPrimePage= () => {
    
     
     // Fetch movies from the backend
-
     useEffect(() => {
-        const fetchAmazonMovies = async () => {
+        const fetchAmazonContent = async () => {
             try {
+                // Debugging the API base URL
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                const data = await response.json();
                 
-                // Check if the response is OK
-                if (!response.ok) {
-                    const errorData = await response.json(); // Attempt to read the error response
-                    throw new Error(errorData.message || 'Failed to fetch Amazon Prime movies');
-                }
+                const AmazonOnly = data.filter(movie => movie.platform === 'AmazonPrime');
+                setAmazonContent(AmazonOnly.reverse()); // Reverse to show latest movie first
     
-                const data = await response.json(); // Parse the response only if the status is OK
-                
-                // Filter Amazon Prime movies and sort by the latest uploaded date (descending)
-                const amazonOnly = data
-                    .filter(movie => movie.platform === 'AmazonPrime')
-                    .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)); 
-    
-                setAmazonMovies(amazonOnly);
             } catch (error) {
-                console.error('Error fetching Amazon Prime movies:', error);
-                alert(error.message); // Display the error message to the user
+                console.error('Error fetching Netflix content:', error);
             }
         };
-        fetchAmazonMovies();
+        
+        fetchAmazonContent();
     }, []);
-    
    
-
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
     // Filter movies based on search term
     const filteredMovies = movies.filter(movie =>
         movie.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -147,7 +140,7 @@ const AmazonPrimePage= () => {
   <span className="closebtn">x</span>
   Simply <strong>Comment on Post</strong> if you found any Broken Link; we will fix it for you within the next 24 Hours with Guaranteed and Great Support.
 </div>
-            <h1 className='C-1'>AMAZON PRIME</h1>
+            <h1 className='C-1'>Amazon Prime </h1>
 
             {/* Movie Grid */}
             <div className="movie-grid">
@@ -202,7 +195,7 @@ const AmazonPrimePage= () => {
                     <p><span className="dot-text">Vega</span> Movies</p>
                     <p  onClick={() => navigate('/privacy')}>Privacy</p>
 
-                    <p>Contact us: <a href='vegamovies.com' >Vegamovies@gmail.com</a></p>
+                    <p>Contact us: <a href='vegamovies.com'>Vegamovies@gmail.com</a></p>
                 </div>
             </footer>
         </>
