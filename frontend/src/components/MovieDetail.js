@@ -257,26 +257,31 @@ const MovieDetail = () => {
                 <p>Thank You For Visiting Vegamovies The Prefect Spot For HD Dual Audio (Hindi-English) Movies & TV Series Download. So Please Keep Downloading & Keep Sharing. Enjoy!</p>
                 </div>
                 <h4 >More-</h4>
-            <div className="movie-grid">
-                {displayedMovies.length > 0 ? (
-                    displayedMovies.map((related) => (
-                        <Link to={`/movies/${related._id}`} key={related._id} className="movie-card">
-                            <img
-                                src={related.image}
-                                alt={related.name}
-                                className="movie-image"
-                                onError={(e) => { e.target.src = '/default-movie.jpg'; }}
-                            />
-                             <p className="published-date2"> 
-                                {new Date(movie.createdAt).toLocaleDateString()}
-                            </p>
-                            <h5 >{related.name}</h5>
-                        </Link>
-                    ))
-                ) : (
-                    <p>No related movies found.</p>
-                )}
-            </div>
+         <div className="movie-grid">
+    {displayedMovies.length > 0 ? (
+        displayedMovies.map((related) => (
+            <Link
+                to={`/movies/${related._id}`}
+                key={related._id}
+                className="movie-card"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+                <img
+                    src={related.image}
+                    alt={related.name}
+                    className="movie-image"
+                    onError={(e) => { e.target.src = '/default-movie.jpg'; }}
+                />
+                <p className="published-date2"> 
+                    {new Date(related.createdAt).toLocaleDateString()}
+                </p>
+                <h5>{related.name}</h5>
+            </Link>
+        ))
+    ) : (
+        <p>No related movies found.</p>
+    )}
+</div>
 
             <div className='D2'>
                 <button onClick={handlePrevious} disabled={currentIndex === 0}>Previous</button>
