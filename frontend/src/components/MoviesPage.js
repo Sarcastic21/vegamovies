@@ -54,6 +54,7 @@ const MoviesPage= () => {
     const nextPage = () => {
         if (indexOfLastMovie < filteredMovies.length) {
             setCurrentPage(prevPage => prevPage + 1);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -61,6 +62,7 @@ const MoviesPage= () => {
     const prevPage = () => {
         if (currentPage > 1) {
             setCurrentPage(prevPage => prevPage - 1);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
