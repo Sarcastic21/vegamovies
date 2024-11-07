@@ -97,6 +97,7 @@ const MovieDetail = () => {
     const handleNext = () => {
         if (currentIndex + moviesPerPage < relatedMovies.length) {
             setCurrentIndex(currentIndex + moviesPerPage);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -104,6 +105,7 @@ const MovieDetail = () => {
     const handlePrevious = () => {
         if (currentIndex - moviesPerPage >= 0) {
             setCurrentIndex(currentIndex - moviesPerPage);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
