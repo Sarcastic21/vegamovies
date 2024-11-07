@@ -23,7 +23,7 @@ const MXPlayerPage= () => {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 
-                const MXOnly = data.filter(movie => movie.platform === 'Netflix');
+                const MXOnly = data.filter(movie => movie.platform === 'MxPlayer');
                 setMXContent(MXOnly.reverse()); // Reverse to show latest movie first
     
             } catch (error) {
