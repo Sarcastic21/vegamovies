@@ -174,8 +174,9 @@ const MovieDetail = () => {
             </div>
 
             {/* Search bar */}
-            <div className="search-container">
-               <input
+          <div className="search-and-recent-container">
+            {/* Search Bar */}
+            <input
     type="text"
     id="search"                 // Added id attribute
     name="search"               // Added name attribute
@@ -185,7 +186,9 @@ const MovieDetail = () => {
     onChange={(e) => setSearchTerm(e.target.value)}
     autoComplete="off"          // Optional: turn off autocomplete
 />
-
+<button className="search-button">
+                <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
+            </button>
 
             {/* Filtered Movie Results */}
             {searchTerm && (
@@ -201,10 +204,6 @@ const MovieDetail = () => {
                     ))}
                 </div>
             )}
-
-            <button className="search-button">
-                <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
-            </button>
         </div>
             <hr className='hr' />
             <div className="alert">
