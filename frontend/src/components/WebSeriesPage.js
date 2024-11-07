@@ -52,6 +52,7 @@ const WebSeriesPage= () => {
     const nextPage = () => {
         if (indexOfLastMovie < filteredMovies.length) {
             setCurrentPage(prevPage => prevPage + 1);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -59,6 +60,7 @@ const WebSeriesPage= () => {
     const prevPage = () => {
         if (currentPage > 1) {
             setCurrentPage(prevPage => prevPage - 1);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
