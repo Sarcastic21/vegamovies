@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import img10 from '../components/P1.png';
-import { FaSearch } from 'react-icons/fa';
+
 import './Styles/MoviesDetails.css';
 import img11 from '../components/instagram-join-news-en-removebg-preview.png';
 
@@ -178,17 +178,14 @@ const MovieDetail = () => {
             {/* Search Bar */}
             <input
     type="text"
-    id="search"                 // Added id attribute
-    name="search"               // Added name attribute
-    placeholder="What are you looking for?"
+    id="search"
+    name="search"
+    placeholder="⌕ What are you looking for?"
     className="search-bar1"
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
-    autoComplete="off"          // Optional: turn off autocomplete
+    autoComplete="off"
 />
-<button className="search-button">
-                <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
-            </button>
 
             {/* Filtered Movie Results */}
             {searchTerm && (
