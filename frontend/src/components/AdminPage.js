@@ -14,11 +14,17 @@ const AdminPage = () => {
 
 
 
-        link: '',
+        link720p: '',
+        link1080p: '',
+
         category: '',
         platform: '',
         filesize:'',
-        seasons: [],
+        filesize2:'',
+
+        seasons720p: [],
+        seasons1080p: [],
+
     });
     const [deleteName, setDeleteName] = useState('');
 
@@ -43,11 +49,17 @@ const AdminPage = () => {
                     image3: '',
                     image4: '',
                     image5: '',
-                    link: '',
+                    link720p: '',
+                    link1080p: '',
+
                     category: '',
                     platform: '',
                     filesize: '',
-                    seasons: [],
+                    filesize2: '',
+
+                    seasons720p: [],
+                    seasons1080p: [],
+
                 });
                 console.log('Movie added successfully');
                 alert('Movie added successfully!'); // Notify user of success
@@ -64,27 +76,40 @@ const AdminPage = () => {
     
 
     const handleDelete = async () => {
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies/${deleteName}`, {
-            method: 'DELETE',
-        });
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json', // Set content type to JSON
+                },
+                body: JSON.stringify({ name: deleteName }), // Send the name in the request body
+            });
 
-        if (response.ok) {
-            setDeleteName('');
-            console.log('Movie deleted successfully');
-        } else {
-            console.error('Error deleting movie/web series');
+            if (response.ok) {
+                setDeleteName(''); // Clear the input field if successful
+                console.log('Movie deleted successfully');
+            } else {
+                const errorData = await response.json();
+                console.error('Error deleting movie/web series:', errorData.message);
+            }
+        } catch (error) {
+            console.error('Failed to delete movie/web series:', error);
         }
     };
 
     const handleCategoryChange = (e) => {
         const category = e.target.value;
+    
         if (category === 'webseries') {
-            const seasons = Array.from({ length: 50 }, () => '');
-            setNewMovie({ ...newMovie, category, seasons });
+            const seasons720p = Array.from({ length: 50 }, () => ''); // Empty strings for each season
+            const seasons1080p = Array.from({ length: 50 }, () => ''); // Empty strings for each season
+    
+            setNewMovie({ ...newMovie, category, seasons720p, seasons1080p });
         } else {
-            setNewMovie({ ...newMovie, category, seasons: [] });
+            setNewMovie({ ...newMovie, category, seasons720p: [], seasons1080p: [] });
         }
     };
+    
 
     return (
         <div className="admin-page">
@@ -151,7 +176,14 @@ const AdminPage = () => {
                     placeholder="filesize"
                     value={newMovie.filesize}
                     onChange={(e) => setNewMovie({ ...newMovie, filesize: e.target.value })}
-                    required
+                    
+                />
+                 <input
+                    type="text"
+                    placeholder="filesize"
+                    value={newMovie.filesize2}
+                    onChange={(e) => setNewMovie({ ...newMovie, filesize2: e.target.value })}
+                    
                 />
                 <select className='CATEGORY' value={newMovie.category} onChange={handleCategoryChange}>
                     <option value="">Select Category (Optional)</option>
@@ -169,32 +201,63 @@ const AdminPage = () => {
                     <option value="Anime">Anime</option>
                 </select>
                 {newMovie.category === 'movies' && (
-                    <input
-                        type="text"
-                        placeholder="Download Link"
-                        value={newMovie.link}
-                        onChange={(e) => setNewMovie({ ...newMovie, link: e.target.value })}
-                        required
-                    />
-                )}
-                {newMovie.category === 'webseries' && (
-                    <div>
-                        <h3>Add Season Links (Optional):</h3>
-                        {newMovie.seasons.map((season, index) => (
-                            <input
-                                key={index}
-                                type="text"
-                                placeholder={`Season ${index + 1} Link (Optional)`}
-                                value={season}
-                                onChange={(e) => {
-                                    const updatedSeasons = [...newMovie.seasons];
-                                    updatedSeasons[index] = e.target.value;
-                                    setNewMovie({ ...newMovie, seasons: updatedSeasons });
-                                }}
-                            />
-                        ))}
-                    </div>
-                )}
+    <>
+        <input
+            type="text"
+            placeholder="Download Link (720p)"
+            value={newMovie.link720p}
+            onChange={(e) => setNewMovie({ ...newMovie, link720p: e.target.value })}
+            
+        />
+        <input
+            type="text"
+            placeholder="Download Link (1080p)"
+            value={newMovie.link1080p}
+            onChange={(e) => setNewMovie({ ...newMovie, link1080p: e.target.value })}
+            
+        />
+    </>
+)}
+
+{newMovie.category === 'webseries' && (
+    <div>
+        <h3>Add Season 720p Links (Optional):</h3>
+        {newMovie.seasons720p.map((season, index) => (
+            <input
+                key={index}
+                type="text"
+                placeholder={`Season ${index + 1} 720p Link (Optional)`}
+                value={season}
+                onChange={(e) => {
+                    const updatedSeasons720p = [...newMovie.seasons720p];
+                    updatedSeasons720p[index] = e.target.value;
+                    setNewMovie({ ...newMovie, seasons720p: updatedSeasons720p });
+                }}
+            />
+        ))}
+        {/* Optionally add a button to add more seasons if needed */}
+    </div>
+)}
+
+{newMovie.category === 'webseries' && (
+    <div>
+        <h3>Add Season 1080p Links (Optional):</h3>
+        {newMovie.seasons1080p.map((season, index) => (
+            <input
+                key={index}
+                type="text"
+                placeholder={`Season ${index + 1} 1080p Link (Optional)`}
+                value={season}
+                onChange={(e) => {
+                    const updatedSeasons1080p = [...newMovie.seasons1080p];
+                    updatedSeasons1080p[index] = e.target.value;
+                    setNewMovie({ ...newMovie, seasons1080p: updatedSeasons1080p });
+                }}
+            />
+        ))}
+    </div>
+)}
+
                 <button type="submit">Add Movie/Web Series</button>
             </form>
             <h2>Delete Movie/Web Series</h2>
