@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import img10 from '../components/P1.png';
-
+import { FaSearch } from 'react-icons/fa';
 import './Styles/MoviesDetails.css';
 import img11 from '../components/instagram-join-news-en-removebg-preview.png';
 
@@ -97,7 +97,6 @@ const MovieDetail = () => {
     const handleNext = () => {
         if (currentIndex + moviesPerPage < relatedMovies.length) {
             setCurrentIndex(currentIndex + moviesPerPage);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -105,7 +104,6 @@ const MovieDetail = () => {
     const handlePrevious = () => {
         if (currentIndex - moviesPerPage >= 0) {
             setCurrentIndex(currentIndex - moviesPerPage);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -158,7 +156,7 @@ const MovieDetail = () => {
 
             {/* Buttons to navigate between UserPage, Movies, and WebSeries */}
             <div className='nav-buttons2'>
-                <button className='nav-button3' onClick={() => navigate('/')}>Dual Audio</button>
+                <button className='nav-button3' onClick={() => navigate('/')}>Home</button>
                 <button className='nav-button4' onClick={() => navigate('/movies')}>Movies</button>
                 <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
             </div>
@@ -174,7 +172,8 @@ const MovieDetail = () => {
             </div>
 
             {/* Search bar */}
-          <div className="search-and-recent-container">
+            <div className="search-and-recent-container">
+
             {/* Search Bar */}
             <input
     type="text"
@@ -186,6 +185,7 @@ const MovieDetail = () => {
     onChange={(e) => setSearchTerm(e.target.value)}
     autoComplete="off"
 />
+
 
             {/* Filtered Movie Results */}
             {searchTerm && (
@@ -201,6 +201,11 @@ const MovieDetail = () => {
                     ))}
                 </div>
             )}
+
+            {/* Recent Uploads Section */}
+           
+
+            
         </div>
             <hr className='hr' />
             <div className="alert">
@@ -238,29 +243,53 @@ const MovieDetail = () => {
                     <h3 className='D1'>Download zip  file of movies &  webseries ...</h3>
 
                     <h1 >Download Link :</h1>
-                    <h2 className='D2' >{movie.filesize}</h2>
-                    <div className='Download-button'>
-    {/* Render buttons for downloading each season if it exists */}
-    {movie.category === 'webseries' && movie.seasons.map((seasonLink, index) => (
-        seasonLink ? ( // Check if the season link is valid
+                    <h2 className='D2'>{movie.filesize}</h2>
+<div className='Download-button'>
+    {/* Render buttons for downloading each season if it exists for 720p */}
+    {movie.category === 'webseries' && movie.seasons720p.map((seasonLink720p, index) => (
+        seasonLink720p && ( // Check if the season link is valid
             <button 
                 key={index} 
-                onClick={() => window.open(seasonLink)} // Directly open the season link
+                onClick={() => window.open(seasonLink720p)} // Directly open the season link
                 className='Download-Button1'>
-                Download Season {index + 1}
+                Download Season {index + 1} 720p
             </button>
-        ) : null
+        )
     ))}
 
-    {/* Download button for movies */}
-    {movie.category !== 'webseries' && movie.link && (
-        <div className='Download-button'>
+    {/* Download button for movies or seasons720p for webseries */}
+    {movie.category !== 'webseries' && movie.link720p && (
+        <button 
+            onClick={() => window.open(movie.link720p)} // Directly open the movie link
+            className='Download-Button1'>
+            Download 720p
+        </button>
+    )}
+</div>
+
+{/* Only render if filesize2 exists */}
+{movie.filesize2 && <h2 className='D2'>{movie.filesize2}</h2>}
+
+<div className='Download-button'>
+    {/* Render buttons for downloading each season if it exists for 1080p */}
+    {movie.category === 'webseries' && movie.seasons1080p.map((seasonLink1080p, index) => (
+        seasonLink1080p && ( // Check if the season link is valid
             <button 
-                onClick={() => window.open(movie.link)} // Directly open the movie link
+                key={index} 
+                onClick={() => window.open(seasonLink1080p)} // Directly open the season link
                 className='Download-Button1'>
-                Download
+                Download Season {index + 1} 1080p
             </button>
-        </div>
+        )
+    ))}
+
+    {/* Download button for movies or seasons1080p for webseries */}
+    {movie.category !== 'webseries' && movie.link1080p && (
+        <button 
+            onClick={() => window.open(movie.link1080p)} // Directly open the movie link
+            className='Download-Button1'>
+            Download 1080p
+        </button>
     )}
 </div>
 
@@ -269,7 +298,7 @@ const MovieDetail = () => {
                 <p>Thank You For Visiting Vegamovies The Prefect Spot For HD Dual Audio (Hindi-English) Movies & TV Series Download. So Please Keep Downloading & Keep Sharing. Enjoy!</p>
                 </div>
                 <h4 >More-</h4>
-         <div className="movie-grid">
+                <div className="movie-grid">
     {displayedMovies.length > 0 ? (
         displayedMovies.map((related) => (
             <Link
@@ -294,6 +323,7 @@ const MovieDetail = () => {
         <p>No related movies found.</p>
     )}
 </div>
+
 
             <div className='D2'>
                 <button onClick={handlePrevious} disabled={currentIndex === 0}>Previous</button>
