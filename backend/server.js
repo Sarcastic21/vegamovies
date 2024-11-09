@@ -48,13 +48,17 @@ const movieSchema = new mongoose.Schema({
     image3: { type: String, required: true },
     image4: { type: String, required: true },
     image5: { type: String, required: true },
-    link: { type: String },  // Only for movies
     category: { type: String, required: true },
     filesize: { type: String, required: true },
-    seasons: { type: [String], default: [] },  // Array of links for Web Series seasons
+    filesize2: { type: String, required: true },
+    link720p: { type: String },  // Only for movies
+    link1080p: { type: String },  // Only for movies
+
+    seasons720p: { type: [String], default: [] },  // Array of links for Web Series seasons
+    seasons1080p: { type: [String], default: [] },  // Array of links for Web Series seasons
+
     platform: { type: String, required: false } // New field to specify the platform
 }, { timestamps: true });
-
 const Movie = mongoose.model('Movie', movieSchema);
 
 // API route for login
@@ -100,7 +104,7 @@ app.get('/api/movies/:id', async (req, res) => {
 
 // API route to add a new movie/webseries
 app.post('/api/movies', async (req, res) => {
-    const { name, description, description2, image, image2, image3, image4, image5, link, category, filesize, seasons, platform } = req.body;
+    const { name, description, description2, image, image2, image3, image4, image5, link720p, link1080p, category, filesize, filesize2, seasons720p, seasons1080p, platform } = req.body;
 
     // Validate category and handle the links based on the category type
     let movieData = {
@@ -113,14 +117,20 @@ app.post('/api/movies', async (req, res) => {
         image4,
         image5,
         category,
+        link720p,
+        link1080p,
         filesize,
+        filesize2,
         platform, // Ensure platform is included
     };
 
     if (category === 'webseries') {
-        movieData.seasons = seasons || []; // Accept seasons if provided
+        movieData.seasons720p = seasons720p || []; // Accept seasons if provided
+        movieData.seasons1080p = seasons1080p || []; // Accept 1080p seasons if provided
     } else if (category === 'movies') {
-        movieData.link = link; // Only accept single link for movies
+        // Only accept single link for movies
+        movieData.link720p = link720p;
+        movieData.link1080p = link1080p;
     }
 
     const movie = new Movie(movieData);
