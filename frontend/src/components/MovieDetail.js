@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import img10 from '../components/P1.png';
-import { FaSearch } from 'react-icons/fa';
 import './Styles/MoviesDetails.css';
 import img11 from '../components/instagram-join-news-en-removebg-preview.png';
 
@@ -21,7 +20,58 @@ const MovieDetail = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
+   
+   const [email, setEmail] = useState('');
+  const [Comments, setComments] = useState(''); // Separate state for comments
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [messageColor, setMessageColor] = useState(""); // State for message color
+  const [message, setMessage] = useState(""); // State for custom message
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Ensure the email and comment are being set correctly
+    console.log('Email:', email);
+    console.log('Comments:', Comments);
+  
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('Comments', Comments);
+  
+    setIsLoading(true); // Set loading to true
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/send-email`, {
+            method: 'POST',
+            body: formData,
+        });
+        
+        
+    
+  
+      if (response.ok) {
+        setMessage("Comment sent successfully!"); // Set success message
+        setMessageColor("green"); // Set the color to green
+      } else {
+        setMessage("Failed to send Comment. Please try again."); // Set failure message
+        setMessageColor("red"); // Set the color to red
+      }
+
+      // Reset form fields
+      setEmail("");
+      setComments("");
+
+      // Hide message after 1 second
+      setTimeout(() => {
+        setMessage(""); // Clear the message after 1 second
+      }, 1000);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setMessage("An error occurred. Please try again later."); // Error message
+      setMessageColor("red"); // Set the color to red
+    } finally {
+      setIsLoading(false); // Reset loading state
+    }
+  };
     // Fetch movies data on component mount
     useEffect(() => {
         const fetchMovies = async () => {
@@ -46,6 +96,7 @@ const MovieDetail = () => {
         );
         setFilteredMovies(filtered);
     }, [searchTerm, movies]);
+    
 
     // Get the 5 most recent movies
     const recentMovies = movies
@@ -123,70 +174,97 @@ const MovieDetail = () => {
             </h1>
            
             <div className="nav-container">
-            <div className="desktop-menu">
-                <button className="nav-button" onClick={() => navigate('/')}>Home</button>
-                <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
-                <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
-                <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
+                <div className="desktop-menu">
+                    <button className="nav-button" onClick={() => navigate('/')}>Home</button>
+                    <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
+                    <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
+              
+                    <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
                 <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
-            </div>
-
-            <div className="mobile-menu">
-                <div className="hamburger-icon" onClick={() => setShowMenu(!showMenu)}>
-                    ☰ Menu
+                    <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
+                    <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
                 </div>
-                {showMenu && (
-                    <div className="hamburger-menu">
-                        <button className="nav-button" onClick={() => navigate('/')}>Home</button>
-                        <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
-                        <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
-                        <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
-                        <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                        <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
-                        <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
+
+                <div className="mobile-menu">
+                    <div className="hamburger-icon" onClick={() => setShowMenu(!showMenu)}>
+                        ☰ Menu
                     </div>
-                )}
+                    {showMenu && (
+                        <div className="hamburger-menu">
+                            <button className="nav-button" onClick={() => navigate('/')}>Home</button>
+                            <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
+                            <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
+                          
+                            <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
+                <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
+                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
+                            <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
+                            <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
 
-        <div className="user-page">
-            
-
-            {/* Buttons to navigate between UserPage, Movies, and WebSeries */}
-            <div className='nav-buttons2'>
-                <button className='nav-button3' onClick={() => navigate('/')}>Home</button>
+            <div className="user-page">
+                <div className='nav-buttons2'>
+                <button className='nav-button3' onClick={() => navigate('/')}>Dual Audio </button>
                 <button className='nav-button4' onClick={() => navigate('/movies')}>Movies</button>
-                <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
-            </div>
+                    <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
+                </div>
+                <div className="nav-buttons-container">
+    <button className="nav-button6" onClick={() => navigate('/hollywood')}>Hollywood</button>
+    <button className="nav-button6" onClick={() => navigate('/bollywood')}>Bollywood</button>
+</div>
+                <div className="nav-buttons">
+                    <button className='nav-button1' onClick={() => navigate('/anime')}>Anime</button>
+                    <button className='nav-button1' onClick={() => navigate('/netflix')}>Netflix</button>
+                    <button className='nav-button1' onClick={() => navigate('/disney')}>Disney+</button>
+                    <button className='nav-button1' onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
+                    <button className='nav-button1' onClick={() => navigate('/adult')}>Adult</button>
 
-            <div className="nav-buttons">
-                <button className='nav-button1' onClick={() => navigate('/anime')}>Anime</button>
-                <button className='nav-button1' onClick={() => navigate('/netflix')}>Netflix</button>
-                <button className='nav-button1' onClick={() => navigate('/disney')}>Disney+</button>
-                <button className='nav-button1' onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className='nav-button1' onClick={() => navigate('/mxplayer')}>MxPlayer</button>
-                <button className='nav-button1' onClick={() => navigate('/Kdrama')}>K-Drama</button>
-                <button className='nav-button1' onClick={() => navigate('/adult')}>Adult</button>
-            </div>
-
+                    <button className='nav-button1' onClick={() => navigate('/mxplayer')}>MxPlayer</button>
+                    <button className='nav-button1' onClick={() => navigate('/Kdrama')}>K-Drama</button>
+                    <button className='nav-button1' onClick={() => navigate('/hollywood')}>Hollywood</button>
+                    <button className='nav-button1' onClick={() => navigate('/bollywood')}>Bollywood</button>
+                </div>
             {/* Search bar */}
-            <div className="search-container">
-            <input
-                 type="text"
-                 id="search1"                 // Added id attribute
-                 name="search1"               // Added name attribute
-                 placeholder="What are you looking for?"
-                 className="search-bar1"
-                 value={searchTerm}
-                 onChange={(e) => setSearchTerm(e.target.value)}
-                autoComplete="off"          // Optional: turn off autocomplete
-            />
+            <div className="search-and-recent-container">
 
-            <button className="search-button">
-                <span role="img" aria-label="search-icon">        <FaSearch size={20} /></span>
-            </button>
+            {/* Search Bar */}
+            <input
+    type="text"
+    id="search"
+    name="search"
+    placeholder="⌕ What are you looking for?"
+    className="search-bar1"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    autoComplete="off"
+/>
+
+
+            {/* Filtered Movie Results */}
+            {searchTerm && (
+                <div className="search-results">
+                    {filteredMovies.map((movie) => (
+                        <Link
+                            to={`/movies/${movie._id}`}
+                            key={movie._id}
+                            className="search-result-item"
+                        >
+                            {movie.name}
+                        </Link>
+                    ))}
+                </div>
+            )}
+
+            {/* Recent Uploads Section */}
+           
+
+            
         </div>
             <hr className='hr' />
             <div className="alert">
@@ -224,29 +302,53 @@ const MovieDetail = () => {
                     <h3 className='D1'>Download zip  file of movies &  webseries ...</h3>
 
                     <h1 >Download Link :</h1>
-                    <h2 className='D2' >{movie.filesize}</h2>
-                    <div className='Download-button'>
-    {/* Render buttons for downloading each season if it exists */}
-    {movie.category === 'webseries' && movie.seasons.map((seasonLink, index) => (
-        seasonLink ? ( // Check if the season link is valid
+                    <h2 className='D2'>{movie.filesize}</h2>
+<div className='Download-button'>
+    {/* Render buttons for downloading each season if it exists for 720p */}
+    {movie.category === 'webseries' && movie.seasons720p.map((seasonLink720p, index) => (
+        seasonLink720p && ( // Check if the season link is valid
             <button 
                 key={index} 
-                onClick={() => window.open(seasonLink)} // Directly open the season link
+                onClick={() => window.open(seasonLink720p)} // Directly open the season link
                 className='Download-Button1'>
-                Download Season {index + 1}
+                Download Season {index + 1} 720p
             </button>
-        ) : null
+        )
     ))}
 
-    {/* Download button for movies */}
-    {movie.category !== 'webseries' && movie.link && (
-        <div className='Download-button'>
+    {/* Download button for movies or seasons720p for webseries */}
+    {movie.category !== 'webseries' && movie.link720p && (
+        <button 
+            onClick={() => window.open(movie.link720p)} // Directly open the movie link
+            className='Download-Button1'>
+            Download 720p
+        </button>
+    )}
+</div>
+
+{/* Only render if filesize2 exists */}
+{movie.filesize2 && <h2 className='D2'>{movie.filesize2}</h2>}
+
+<div className='Download-button'>
+    {/* Render buttons for downloading each season if it exists for 1080p */}
+    {movie.category === 'webseries' && movie.seasons1080p.map((seasonLink1080p, index) => (
+        seasonLink1080p && ( // Check if the season link is valid
             <button 
-                onClick={() => window.open(movie.link)} // Directly open the movie link
+                key={index} 
+                onClick={() => window.open(seasonLink1080p)} // Directly open the season link
                 className='Download-Button1'>
-                Download
+                Download Season {index + 1} 1080p
             </button>
-        </div>
+        )
+    ))}
+
+    {/* Download button for movies or seasons1080p for webseries */}
+    {movie.category !== 'webseries' && movie.link1080p && (
+        <button 
+            onClick={() => window.open(movie.link1080p)} // Directly open the movie link
+            className='Download-Button1'>
+            Download 1080p
+        </button>
     )}
 </div>
 
@@ -255,26 +357,32 @@ const MovieDetail = () => {
                 <p>Thank You For Visiting Vegamovies The Prefect Spot For HD Dual Audio (Hindi-English) Movies & TV Series Download. So Please Keep Downloading & Keep Sharing. Enjoy!</p>
                 </div>
                 <h4 >More-</h4>
-            <div className="movie-grid">
-                {displayedMovies.length > 0 ? (
-                    displayedMovies.map((related) => (
-                        <Link to={`/movies/${related._id}`} key={related._id} className="movie-card">
-                            <img
-                                src={related.image}
-                                alt={related.name}
-                                className="movie-image"
-                                onError={(e) => { e.target.src = '/default-movie.jpg'; }}
-                            />
-                             <p className="published-date2"> 
-                                {new Date(movie.createdAt).toLocaleDateString()}
-                            </p>
-                            <h5 >{related.name}</h5>
-                        </Link>
-                    ))
-                ) : (
-                    <p>No related movies found.</p>
-                )}
-            </div>
+                <div className="movie-grid">
+    {displayedMovies.length > 0 ? (
+        displayedMovies.map((related) => (
+            <Link
+                to={`/movies/${related._id}`}
+                key={related._id}
+                className="movie-card"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+                <img
+                    src={related.image}
+                    alt={related.name}
+                    className="movie-image"
+                    onError={(e) => { e.target.src = '/default-movie.jpg'; }}
+                />
+                <p className="published-date2"> 
+                    {new Date(related.createdAt).toLocaleDateString()}
+                </p>
+                <h5>{related.name}</h5>
+            </Link>
+        ))
+    ) : (
+        <p>No related movies found.</p>
+    )}
+</div>
+
 
             <div className='D2'>
                 <button onClick={handlePrevious} disabled={currentIndex === 0}>Previous</button>
@@ -336,12 +444,55 @@ const MovieDetail = () => {
                 <button className='nav-button10' onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className='nav-button10' onClick={() => navigate('/disney')}>Disney+</button>
                 <button className='nav-button10' onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
+                <button className="nav-button10" onClick={() => navigate('/hollywood')}>Hollywood</button>
+                <button className="nav-button10" onClick={() => navigate('/bollywood')}>Bollywood</button>
                 <button className='nav-button10' onClick={() => navigate('/mxplayer')}>MxPlayer</button>
                 <button className='nav-button10' onClick={() => navigate('/Kdrama')}>K-Drama</button>
                 <button className='nav-button10' onClick={() => navigate('/adult')}>Adult</button>
             </div>
-            
-            </div>
+            <div>
+            <hr></hr>
+      <form className="checkout-form" onSubmit={handleSubmit}>
+        <div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder='Enter your E-mail'
+          />
+          <textarea
+            value={Comments}
+            onChange={(e) => setComments(e.target.value)} // Set the comments
+            required
+            placeholder='Write movie/webseries name '
+          />
+        </div>
+        <button className="submit-button" type="submit" disabled={isLoading}>
+          {isLoading ? 'Sending...' : 'Submit'}
+        </button>
+      </form>
+      <h3 className='last'>Simply comment  movie/webseries name if you found link broken we will fix that within 24hr for you  </h3>
+
+      {/* Show custom message */}
+      {message && (
+        <div
+          style={{
+            backgroundColor: messageColor,
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            marginTop: "10px",
+            textAlign: "center",
+          }}
+        >
+          {message}
+        </div>
+      )}
+    </div>
+          
+              
+      </div>
             </div>
 
 
@@ -353,7 +504,7 @@ const MovieDetail = () => {
                     <hr className="footer-line" />
                     <p><span className="dot-text">Vega</span> Movies</p>
                     
-                    <p>Contact us: <a href='vegamovies.com' >Vegamovies@gmail.com</a></p>
+                    <p>Contact us: <a className='href' href='mailto:Vegamovies@gmail.com'>Vegamovies@gmail.com</a></p>
                 </div>
             </footer>
         </>

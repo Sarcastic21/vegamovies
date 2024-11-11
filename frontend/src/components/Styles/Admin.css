@@ -1,128 +1,174 @@
-/* General Styles for Both Pages */
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #121212; /* Dark background */
-    color: #ffffff; /* White text */
-}
-
-h1, h2 {
-    text-align: center;
-    margin: 20px 0;
-    font-weight: 600; /* Semi-bold titles */
-}
-
-/* Admin Page Styles */
+/* Styling for the login page container */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #242424; /* Light grey background for the page */
+    padding: 20px;
+  }
+  
+  /* Header styling */
+  .login-page h2 {
+    color: #b50000; /* Red color for the heading */
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+  }
+  
+  /* Form container styling */
+  .login {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Limit the form width */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Add space between input elements */
+  }
+  
+  /* Input fields styling */
+  .login input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus effect for input fields */
+  .login input:focus {
+    border-color: #b50000; /* Red border on focus */
+  }
+  
+  /* Button styling */
+  .login button {
+    padding: 10px;
+    font-size: 1em;
+    background-color: #b50000; /* Red background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  /* Button hover effect */
+  .login button:hover {
+    background-color: #9b0000; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+  }
+  
+  /* Container styling */
 .admin-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 30px;
-    width: 80%;
-    margin: 50px auto;
-    background-color: #ffffff; /* Light background for premium contrast */
-    color: #121212; /* Dark text color */
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
-    max-width: 800px;
-    transition: all 0.3s ease;
-}
-
-.admin-page:hover {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Deeper shadow on hover */
-}
-
-.admin-page-title {
-    font-size: 2.5rem;
-    color: #ff4757; /* Red accent color */
+    padding: 20px;
+    background-color: #3d3d3d; /* Light grey background */
+  }
+  
+  /* Title styling */
+  .admin-page-title {
+    color: #b50000; /* Red color for the title */
     margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Form Container */
-.admin-form-container {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Form styling */
+  .movie-form {
+    background-color: #ffffff; /* White background for form */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
-    gap: 15px;
-    padding: 20px;
-}
-
-.admin-form-container input,
-.admin-form-container select,
-.admin-form-container textarea {
-    width: 100%;
-    padding: 18px; /* Spacious input fields */
-    margin: 12px 0;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    background-color: #f7f7f7;
-    color: #333;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-}
-
-.admin-form-container input:focus,
-.admin-form-container select:focus,
-.admin-form-container textarea:focus {
-    border-color: #ff4757; /* Premium red accent for focus */
-    box-shadow: 0 0 8px rgba(255, 71, 87, 0.4);
-    background-color: #ffffff; /* Slightly lighter on focus */
-    outline: none;
-}
-
-.admin-form-container input::placeholder,
-.admin-form-container textarea::placeholder {
-    color: #999999;
-}
-
-/* Button Styles */
-.admin-form-container button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 20px;
-    background-color: #ff4757;
-    color: #ffffff;
+    max-width: 600px;
+    gap: 15px; /* Space between form elements */
+  }
+  
+  /* Input fields styling */
+  .movie-form input,
+  .movie-form select {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Input focus effect */
+  .movie-form input:focus,
+  .movie-form select:focus {
+    border-color: #b50000; /* Red border on focus */
+  }
+  
+  /* Button styling */
+  .movie-form button {
+    padding: 12px;
+    font-size: 1em;
+    background-color: #b50000; /* Red background */
+    color: white;
     border: none;
-    font-size: 1.1rem;
-    font-weight: 700;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 8px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.admin-form-container button:hover {
-    background-color: #ff6b81;
-    transform: translateY(-3px); /* Subtle lift on hover */
-    box-shadow: 0 6px 12px rgba(255, 71, 87, 0.2);
-}
-
-.admin-form-container .admin-delete-button {
-    background-color: #d9534f;
-}
-
-.admin-form-container .admin-delete-button:hover {
-    background-color: #c9302c;
-}
-
-/* Select and Textarea */
-.admin-form-container select,
-.admin-form-container textarea {
-    resize: vertical; /* Allow textarea resizing */
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .admin-page {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .admin-page-title {
-        font-size: 2rem;
-    }
-}
+  }
+  
+  /* Button hover and active effects */
+  .movie-form button:hover {
+    background-color: #8b0000; /* Darker red on hover */
+  }
+  
+  .movie-form button:active {
+    background-color: #9b0000; /* Slightly lighter red on active */
+    transform: scale(0.98); /* Slight button press effect */
+  }
+  
+  /* Delete section styling */
+  h2 {
+    color: #b50000; /* Red color for delete section header */
+    margin-top: 20px;
+  }
+  
+  .admin-page input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+   margin-top: 2px;
+    max-width: 600px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .admin-page input[type="text"]:focus {
+    border-color: #b50000;
+  }
+  
+  /* Delete button styling */
+  .admin-page button {
+    padding: 10px;
+    font-size: 1em;
+    background-color: #b50000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .admin-page button:hover {
+    background-color: #8b0000;
+  }
+  
+  .admin-page button:active {
+    background-color: #9b0000;
+    transform: scale(0.98);
+  }
+  
+  

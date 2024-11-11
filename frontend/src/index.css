@@ -374,6 +374,41 @@ padding-right: 0%;
       padding: 10px;
   }
 }
+.nav-button6 {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(315deg, #FF9800, #ff6f00);
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
+
+
+.nav-button6:active {
+  transform: scale(0.95);
+}
+
+.nav-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.href{
+ 
+  color: #646363;
+}
+.last{
+  color:#646363 ;
+  font-weight: 100;
+}
 
 

@@ -15,6 +15,9 @@ import AmazonPrimePage from './components/AmazonPrimePage';
 import KDramaPage from './components/KDramaPage';
 import AdultPage from './components/AdultPage';
 import Privacy from './components/Privacy';
+import HollywoodPage from './components/HollywoodPage';
+import BollywoodPage from './components/BollywoodPage';
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -48,6 +51,8 @@ const App = () => {
         <Route path="/kdrama" element={<KDramaPage />} />
         <Route path="/adult" element={<AdultPage />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/Hollywood" element={<HollywoodPage />} />
+        <Route path="/Bollywood" element={<BollywoodPage />} />
 
         <Route path="/webseries/:id" element={<MovieDetail />} />
       </Routes>

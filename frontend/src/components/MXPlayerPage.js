@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import img10 from '../components/P1.png';
 import { FaSearch } from 'react-icons/fa';
 
-const MXPlayerPage= () => {
-    const [movies, setMXContent] = useState([]);
+const MxPlayerPage= () => {
+    const [movies, setMxPlayerContent] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // Add state for current page
     const moviesPerPage = 24; // Number of movies to display per page
@@ -15,7 +15,7 @@ const MXPlayerPage= () => {
     
     // Fetch movies from the backend
     useEffect(() => {
-        const fetchMXContent = async () => {
+        const fetchMxPlayerContent = async () => {
             try {
                 // Debugging the API base URL
                 console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
@@ -23,15 +23,15 @@ const MXPlayerPage= () => {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 const data = await response.json();
                 
-                const MXOnly = data.filter(movie => movie.platform === 'Netflix');
-                setMXContent(MXOnly.reverse()); // Reverse to show latest movie first
+                const MxPlayerOnly = data.filter(movie => movie.platform === 'MxPlayer');
+                setMxPlayerContent(MxPlayerOnly.reverse()); // Reverse to show latest movie first
     
             } catch (error) {
                 console.error('Error fetching Netflix content:', error);
             }
         };
         
-        fetchMXContent();
+        fetchMxPlayerContent();
     }, []);
    
     useEffect(() => {
@@ -74,54 +74,62 @@ const MXPlayerPage= () => {
             </h1>
            
             <div className="nav-container">
-            <div className="desktop-menu">
-                <button className="nav-button" onClick={() => navigate('/')}>Home</button>
-                <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
-                <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
-                <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
+                <div className="desktop-menu">
+                    <button className="nav-button" onClick={() => navigate('/')}>Home</button>
+                    <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
+                    <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
+              
+                    <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
                 <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
-            </div>
-
-            <div className="mobile-menu">
-                <div className="hamburger-icon" onClick={() => setShowMenu(!showMenu)}>
-                    ☰ Menu
+                    <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
+                    <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
                 </div>
-                {showMenu && (
-                    <div className="hamburger-menu">
-                        <button className="nav-button" onClick={() => navigate('/')}>Home</button>
-                        <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
-                        <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
-                        <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
-                        <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                        <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
-                        <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
+
+                <div className="mobile-menu">
+                    <div className="hamburger-icon" onClick={() => setShowMenu(!showMenu)}>
+                        ☰ Menu
                     </div>
-                )}
+                    {showMenu && (
+                        <div className="hamburger-menu">
+                            <button className="nav-button" onClick={() => navigate('/')}>Home</button>
+                            <button className="nav-button" onClick={() => navigate('/movies')}>Movies</button>
+                            <button className="nav-button" onClick={() => navigate('/webseries')}>Web Series</button>
+                          
+                            <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
+                <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
+                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
+                            <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
+                            <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
 
-        <div className="user-page">
-            
-
-            {/* Buttons to navigate between UserPage, Movies, and WebSeries */}
-            <div className='nav-buttons2'>
-                <button className='nav-button3' onClick={() => navigate('/')}>ALL</button>
+            <div className="user-page">
+                <div className='nav-buttons2'>
+                <button className='nav-button3' onClick={() => navigate('/')}>Dual Audio </button>
                 <button className='nav-button4' onClick={() => navigate('/movies')}>Movies</button>
-                <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
-            </div>
+                    <button className='nav-button5' onClick={() => navigate('/webseries')}>Web Series</button>
+                </div>
+                <div className="nav-buttons-container">
+    <button className="nav-button6" onClick={() => navigate('/hollywood')}>Hollywood</button>
+    <button className="nav-button6" onClick={() => navigate('/bollywood')}>Bollywood</button>
+</div>
+<div className="nav-buttons">
+                    <button className='nav-button1' onClick={() => navigate('/anime')}>Anime</button>
+                    <button className='nav-button1' onClick={() => navigate('/netflix')}>Netflix</button>
+                    <button className='nav-button1' onClick={() => navigate('/disney')}>Disney+</button>
+                    <button className='nav-button1' onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
+                    <button className='nav-button1' onClick={() => navigate('/adult')}>Adult</button>
 
-            <div className="nav-buttons">
-                <button className='nav-button1' onClick={() => navigate('/anime')}>Anime</button>
-                <button className='nav-button1' onClick={() => navigate('/netflix')}>Netflix</button>
-                <button className='nav-button1' onClick={() => navigate('/disney')}>Disney+</button>
-                <button className='nav-button1' onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className='nav-button1' onClick={() => navigate('/mxplayer')}>MxPlayer</button>
-                <button className='nav-button1' onClick={() => navigate('/Kdrama')}>K-Drama</button>
-                <button className='nav-button1' onClick={() => navigate('/adult')}>Adult</button>
-            </div>
-
+                    <button className='nav-button1' onClick={() => navigate('/mxplayer')}>MxPlayer</button>
+                    <button className='nav-button1' onClick={() => navigate('/Kdrama')}>K-Drama</button>
+                    <button className='nav-button1' onClick={() => navigate('/hollywood')}>Hollywood</button>
+                    <button className='nav-button1' onClick={() => navigate('/bollywood')}>Bollywood</button>
+                </div>
             {/* Search bar */}
             <div className="search-container">
             <input
@@ -195,11 +203,11 @@ const MXPlayerPage= () => {
                     <p><span className="dot-text">Vega</span> Movies</p>
                     <p  onClick={() => navigate('/privacy')}>Privacy</p>
 
-                    <p>Contact us: <a href='vegamovies.com'>Vegamovies@gmail.com</a></p>
+                    <p>Contact us: <a className='href' href='mailto:Vegamovies@gmail.com'>Vegamovies@gmail.com</a></p>
                 </div>
             </footer>
         </>
     );
 };
 
-export default MXPlayerPage;
+export default MxPlayerPage;
