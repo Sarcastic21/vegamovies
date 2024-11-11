@@ -3,7 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-
+const nodemailer = require('nodemailer');
+const multer = require('multer');
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 5008;
@@ -33,6 +34,7 @@ app.use(cors({
     credentials: true,
 }));
 
+
 app.use(express.json()); // To parse incoming JSON requests
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
@@ -53,12 +55,13 @@ const movieSchema = new mongoose.Schema({
     filesize2: { type: String, required: true },
     link720p: { type: String },  // Only for movies
     link1080p: { type: String },  // Only for movies
-
+    industry:  {type: String},
     seasons720p: { type: [String], default: [] },  // Array of links for Web Series seasons
     seasons1080p: { type: [String], default: [] },  // Array of links for Web Series seasons
 
     platform: { type: String, required: false } // New field to specify the platform
 }, { timestamps: true });
+
 const Movie = mongoose.model('Movie', movieSchema);
 
 // API route for login
@@ -104,7 +107,7 @@ app.get('/api/movies/:id', async (req, res) => {
 
 // API route to add a new movie/webseries
 app.post('/api/movies', async (req, res) => {
-    const { name, description, description2, image, image2, image3, image4, image5, link720p, link1080p, category, filesize, filesize2, seasons720p, seasons1080p, platform } = req.body;
+    const { name, description, description2, image, image2, image3, image4, image5, link720p, link1080p,  industry, category, filesize, filesize2, seasons720p, seasons1080p, platform } = req.body;
 
     // Validate category and handle the links based on the category type
     let movieData = {
@@ -116,6 +119,7 @@ app.post('/api/movies', async (req, res) => {
         image3,
         image4,
         image5,
+        industry,
         category,
         link720p,
         link1080p,
@@ -144,7 +148,6 @@ app.post('/api/movies', async (req, res) => {
     }
 });
 
-// API route to delete a movie/webseries by name
 app.delete('/api/movies/:name', async (req, res) => {
     try {
         const movie = await Movie.findOneAndDelete({ name: req.params.name });
@@ -154,6 +157,48 @@ app.delete('/api/movies/:name', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+app.use(express.urlencoded({ extended: true }));
+const upload = multer(); 
+// POST route to send email
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER, // Use the email from the .env file
+      pass: process.env.GMAIL_PASS, // Use the app password from the .env file
+    },
+    tls: {
+      rejectUnauthorized: false, // This bypasses the self-signed certificate error
+    },
+  });
+
+  
+  app.post('/api/send-email', upload.none(), async (req, res) => {
+    try {
+        console.log('Received data:', req.body);  // Log incoming data to check if email and comments are correctly sent
+
+        const { email, Comments } = req.body;
+
+        // Validate the required fields
+        if (!email || !Comments) {
+            return res.status(400).send('All fields are required.');
+        }
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER, // Use the email from the .env file
+            to: process.env.EMAIL_TO,      // Use the recipient email from the .env file
+            subject: 'New comment',
+            text: `A new comment was made. Here are the details:\n\nUser Email: ${email}\n\nComment:\n${Comments}`,
+          };
+
+        // Sending email
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('Email sent successfully!');
+    } catch (error) {
+        console.error('Error sending email:', error);  // Log the actual error that caused the 500 
+        res.status(500).send('Failed to send email.');
+    }
+});
+  
 
 // Start the server
 app.listen(PORT, () => {
