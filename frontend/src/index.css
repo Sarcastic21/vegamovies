@@ -406,9 +406,84 @@ padding-right: 0%;
  
   color: #646363;
 }
-.last{
-  color:#646363 ;
-  font-weight: 100;
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.checkout-form div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.checkout-form input:focus,
+.checkout-form textarea:focus {
+  border-color: #f44336; /* Red border on focus */
+  outline: none;
+}
+
+.checkout-form textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #d32f2f;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.last {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.last a {
+  color: #f44336;
+  text-decoration: none;
+}
+
+.last a:hover {
+  text-decoration: underline;
+}
+
 
 
