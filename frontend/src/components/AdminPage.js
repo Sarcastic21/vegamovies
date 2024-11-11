@@ -17,6 +17,7 @@ const AdminPage = () => {
         link720p: '',
         link1080p: '',
         industry: '',
+
         category: '',
         platform: '',
         filesize:'',
@@ -52,6 +53,7 @@ const AdminPage = () => {
                     link720p: '',
                     link1080p: '',
                     industry: '',
+
                     category: '',
                     platform: '',
                     filesize: '',
