@@ -51,7 +51,7 @@ const Privacy = () => {
               
                     <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
                 <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
                     <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
                     <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
@@ -69,7 +69,7 @@ const Privacy = () => {
                           
                             <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
                 <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
                             <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
                             <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
@@ -290,7 +290,7 @@ const Privacy = () => {
                     <p>Copyright &copy; 2024. Created by Vega Movies Team</p>
                     <hr className="footer-line" />
                     <p><span className="dot-text">Vega</span> Movies</p>
-                    <p>Contact us: <a href='vegamovies.com' >Vegamovies@gmail.com</a></p>
+                    <p>Contact us: <a className='href' href='mailto:Vegamovies@gmail.com'>Vegamovies@gmail.com</a></p>
                 </div>
             </footer>
         </>
