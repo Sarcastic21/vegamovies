@@ -276,7 +276,7 @@ const MovieDetail = () => {
 
             <div  className='Container'>
                 <div className='Container1'>
-                <h1>{movie.name}</h1>
+                <h1 className='Movie-Name'>{movie.name}</h1>
             <div className='Container3' >
                 <img src={movie.image} alt={movie.name} className='MovieImage1' />
                 
