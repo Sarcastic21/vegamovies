@@ -71,7 +71,7 @@ const BollywoodPage = () => {
               
                     <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
                 <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
                     <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
                     <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
@@ -89,7 +89,7 @@ const BollywoodPage = () => {
                           
                             <button className="nav-button" onClick={() => navigate('/netflix')}>Netflix</button>
                 <button className="nav-button" onClick={() => navigate('/amazonprime')}>Amazon Prime</button>
-                <button className="nav-button" onClick={() => navigate('/disneyplus')}>Disney+</button>
+                <button className="nav-button" onClick={() => navigate('/disney')}>Disney+</button>
                 <button className="nav-button" onClick={() => navigate('/adult')}>Adult 18+</button>
                             <button className="nav-button" onClick={() => navigate('/hollywood')}>Hollywood</button>
                             <button className="nav-button" onClick={() => navigate('/bollywood')}>Bollywood</button>
