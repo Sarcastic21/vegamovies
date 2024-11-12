@@ -245,6 +245,9 @@ body {
   }
 }
 @media (min-width: 768px) {
+  .Movie-Name{
+    width: 47vw;
+  }
   .nav-button3 {
     width: 10vw;
   }
