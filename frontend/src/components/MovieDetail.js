@@ -140,7 +140,7 @@ const MovieDetail = () => {
     // Fetch related movies by category and platform
  
 
-    if (!movie) return <div>Loading...</div>;
+    if (!movie) return <div className='loading'>Loading...</div>;
 
     const formattedDate = new Date(movie.createdAt).toLocaleDateString();
 
