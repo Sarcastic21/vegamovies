@@ -170,7 +170,7 @@ body {
 }
 
 .movie-image {
-  width: 100%;
+  width: 95%;
   height: 250px;
   object-fit: cover;
   border-radius: 5px;
