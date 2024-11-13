@@ -370,8 +370,8 @@ padding-right: 0%;
   .desktop-menu {
       display: none;
   }
-
   .hamburger-icon {
+    width:25vw;
     margin-right: 70vw;
       display:block;
       padding: 10px;
