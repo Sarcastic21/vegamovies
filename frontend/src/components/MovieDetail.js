@@ -140,8 +140,14 @@ const MovieDetail = () => {
     // Fetch related movies by category and platform
  
 
-    if (!movie) return <div className='loading'>Loading...</div>;
-
+  if (!movie) {
+        return (
+            <div className="spinner-container">
+            <div className="spinner"></div>
+            <p>Loading movies...</p>
+        </div> 
+        );
+    }
     const formattedDate = new Date(movie.createdAt).toLocaleDateString();
 
     // Function to handle the next button click
