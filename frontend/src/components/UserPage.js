@@ -34,9 +34,16 @@ const UserPage = () => {
     useEffect(() => {
         fetchMovies();
     }, []);
-    useEffect(() => {
-        setCurrentPage(1);
+   useEffect(() => {
+        setCurrentPage(1); // Reset to first page when search term changes
     }, [searchTerm]);
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            setCurrentPage(1); // Reset to first page on Enter key press
+            event.target.blur(); // Blur the input to close the keyboard on mobile
+        }
+    };
     // Filter movies based on search term
     const filteredMovies = movies.filter(movie =>
         movie.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -136,11 +143,12 @@ const UserPage = () => {
 
             {/* Search bar */}
             <div className="search-container">
-            <input
+             <input
                 type="text"
                 placeholder="What are you looking for?"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleKeyPress} // Listen for Enter key press
                 className="search-bar"
             />
             <button className="search-button">
