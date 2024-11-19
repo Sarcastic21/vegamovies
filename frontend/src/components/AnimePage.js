@@ -4,12 +4,13 @@ import img10 from '../components/P1.png';
 import { FaSearch } from 'react-icons/fa';
 
 const AnimePage= () => {
-    const [movies, setAnimeMovies] = useState([]);
+   const [movies, setAnimeMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // Add state for current page
     const moviesPerPage = 24; // Number of movies to display per page
     const navigate = useNavigate(); // For navigation
-
+    const [isLoading, setIsLoading] = useState(true); // New state for loading spinner
+    const [error, setError] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
    
     
@@ -17,30 +18,37 @@ const AnimePage= () => {
 
     useEffect(() => {
         const fetchAnimeMovies = async () => {
+            setIsLoading(true); // Show loading spinner
+            setError(null); // Reset error state
             try {
+                console.log("API Base URL:", process.env.REACT_APP_API_BASE_URL);
+
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
                 
                 // Check if the response is OK
                 if (!response.ok) {
                     const errorData = await response.json(); // Attempt to read the error response
-                    throw new Error(errorData.message || 'Failed to fetch Anime movies');
+                    throw new Error(errorData.message || "Failed to fetch Anime movies");
                 }
-    
+
                 const data = await response.json(); // Parse the response only if the status is OK
                 
+                // Filter and sort Anime movies
                 const animeOnly = data
-                    .filter(movie => movie.platform === 'Anime')
+                    .filter((movie) => movie.platform === "Anime")
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by latest
                 
                 setAnimeMovies(animeOnly);
             } catch (error) {
-                console.error('Error fetching Anime movies:', error);
-                alert(error.message); // Display the error message to the user
+                console.error("Error fetching Anime movies:", error);
+                setError(error.message); // Set error state for UI feedback
+            } finally {
+                setIsLoading(false); // Hide loading spinner
             }
         };
+
         fetchAnimeMovies();
     }, []);
-    
    
     useEffect(() => {
         setCurrentPage(1);
@@ -159,30 +167,37 @@ const AnimePage= () => {
             <h1 className='C-1'>ANIME</h1>
 
             {/* Movie Grid */}
-            <div className="movie-grid">
-                {currentMovies.length > 0 ? (
-                    currentMovies.map(movie => (
-                        <Link to={`/movies/${movie._id}`} key={movie._id} className="movie-card">
-                           
-                            <img
-                                src={movie.image}
-                                alt={movie.name}
-                                className="movie-image"
-                                onError={(e) => {
-                                    e.target.src = '/default-movie.jpg'; // Default fallback image
-                                    e.target.alt = "Default Movie Image";
-                                }}
-                            />
-                             <p className="published-date2"> 
-                                {new Date(movie.createdAt).toLocaleDateString()}
-                            </p>
-                            <h5 className='Movie-name121'>{movie.name}</h5>
-                        </Link>
-                    ))
+            {isLoading ? (
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <p>Loading movies...</p>
+                    </div>                ) : error ? (
+                    <p className="error-message">{error}</p>
                 ) : (
-                    <p>No movies found.</p>
+                    <div className="movie-grid">
+                        {currentMovies.length > 0 ? (
+                            currentMovies.map(movie => (
+                                <Link to={`/movies/${movie._id}`} key={movie._id} className="movie-card">
+                                    <img
+                                        src={movie.image}
+                                        alt={movie.name}
+                                        className="movie-image"
+                                        onError={(e) => {
+                                            e.target.src = '/default-movie.jpg';
+                                            e.target.alt = "Default Movie Image";
+                                        }}
+                                    />
+                                    <p className="published-date2">
+                                        {new Date(movie.createdAt).toLocaleDateString()}
+                                    </p>
+                                    <h5 className='Movie-name121'>{movie.name}</h5>
+                                </Link>
+                            ))
+                        ) : (
+                            <p className="no-movies-message">No movies found.</p>
+                        )}
+                    </div>
                 )}
-            </div>
 
             {/* Pagination Controls */}
             <div className="pagination-controls">
