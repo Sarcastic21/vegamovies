@@ -9,32 +9,42 @@ const NetflixPage= () => {
     const [currentPage, setCurrentPage] = useState(1); // Add state for current page
     const moviesPerPage = 24; // Number of movies to display per page
     const navigate = useNavigate(); // For navigation
-
+    const [isLoading, setIsLoading] = useState(true); // New state for loading spinner
+    const [error, setError] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
    
     
     // Fetch movies from the backend
     useEffect(() => {
         const fetchNetflixContent = async () => {
+            setIsLoading(true); // Show loading spinner
+            setError(null); // Reset error state
             try {
-                // Debugging the API base URL
-                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
-    
+                console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL); // Debugging log
+
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch: ${response.statusText}`);
+                }
+
                 const data = await response.json();
                 
                 // Filter for Netflix and reverse to show latest first
-                const netflixOnly = data.filter(movie => movie.platform === 'Netflix');
-                setNetflixContent(netflixOnly.reverse()); // Reverse to show latest movie first
-    
+                const netflixOnly = data
+                    .filter(movie => movie.platform === 'Netflix')
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by latest
+                setNetflixContent(netflixOnly);
+
             } catch (error) {
                 console.error('Error fetching Netflix content:', error);
+                setError(error.message || 'Something went wrong');
+            } finally {
+                setIsLoading(false); // Stop loading spinner
             }
         };
-        
+
         fetchNetflixContent();
     }, []);
-   
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm]);
@@ -151,31 +161,37 @@ const NetflixPage= () => {
 </div>
             <h1 className='C-1'>NETFLIX</h1>
 
-            {/* Movie Grid */}
-            <div className="movie-grid">
-                {currentMovies.length > 0 ? (
-                    currentMovies.map(movie => (
-                        <Link to={`/movies/${movie._id}`} key={movie._id} className="movie-card">
-                           
-                            <img
-                                src={movie.image}
-                                alt={movie.name}
-                                className="movie-image"
-                                onError={(e) => {
-                                    e.target.src = '/default-movie.jpg'; // Default fallback image
-                                    e.target.alt = "Default Movie Image";
-                                }}
-                            />
-                             <p className="published-date2"> 
-                                {new Date(movie.createdAt).toLocaleDateString()}
-                            </p>
-                            <h5 className='Movie-name121'>{movie.name}</h5>
-                        </Link>
-                    ))
+           {isLoading ? (
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <p>Loading movies...</p>
+                    </div>                ) : error ? (
+                    <p className="error-message">{error}</p>
                 ) : (
-                    <p>No movies found.</p>
+                    <div className="movie-grid">
+                        {currentMovies.length > 0 ? (
+                            currentMovies.map(movie => (
+                                <Link to={`/movies/${movie._id}`} key={movie._id} className="movie-card">
+                                    <img
+                                        src={movie.image}
+                                        alt={movie.name}
+                                        className="movie-image"
+                                        onError={(e) => {
+                                            e.target.src = '/default-movie.jpg';
+                                            e.target.alt = "Default Movie Image";
+                                        }}
+                                    />
+                                    <p className="published-date2">
+                                        {new Date(movie.createdAt).toLocaleDateString()}
+                                    </p>
+                                    <h5 className='Movie-name121'>{movie.name}</h5>
+                                </Link>
+                            ))
+                        ) : (
+                            <p className="no-movies-message">No movies found.</p>
+                        )}
+                    </div>
                 )}
-            </div>
 
             {/* Pagination Controls */}
             <div className="pagination-controls">
