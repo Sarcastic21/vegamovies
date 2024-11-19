@@ -4,29 +4,41 @@ import img10 from '../components/P1.png';
 import { FaSearch } from 'react-icons/fa';
 
 const HollywoodPage = () => {
-    const [movies, setHollywoodContent] = useState([]);
+  const [movies, setHollywoodContent] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const moviesPerPage = 24;
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = useState(true); // New state for loading spinner
+    const [error, setError] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
 
     useEffect(() => {
         const fetchHollywoodContent = async () => {
+            setIsLoading(true); // Show loading spinner
+            setError(null); // Reset error state
             try {
                 const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/movies`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
                 const data = await response.json();
 
-                const HollywoodOnly = data.filter(movie => movie.industry === 'hollywood');
-                setHollywoodContent(HollywoodOnly.reverse());
+                // Filter for Hollywood content and reverse to show the latest first
+                const hollywoodOnly = data.filter((movie) => movie.industry === "hollywood");
+                setHollywoodContent(hollywoodOnly.reverse());
             } catch (error) {
-                console.error('Error fetching Hollywood content:', error);
+                console.error("Error fetching Hollywood content:", error);
+                setError("Failed to fetch Hollywood content. Please try again later.");
+            } finally {
+                setIsLoading(false); // Hide loading spinner
             }
         };
-        
+
         fetchHollywoodContent();
     }, []);
+
 
     useEffect(() => {
         setCurrentPage(1);
@@ -142,29 +154,38 @@ const HollywoodPage = () => {
 </div>
                 <h1 className='C-1'>Hollywood Movies</h1>
 
-                <div className="movie-grid">
-                    {currentMovies.length > 0 ? (
-                        currentMovies.map(movie => (
-                            <Link to={`/movies/${movie._id}`} key={movie._id} className="movie-card">
-                                <img
-                                    src={movie.image}
-                                    alt={movie.name}
-                                    className="movie-image"
-                                    onError={(e) => {
-                                        e.target.src = '/default-movie.jpg';
-                                        e.target.alt = "Default Movie Image";
-                                    }}
-                                />
-                                <p className="published-date2">
-                                    {new Date(movie.createdAt).toLocaleDateString()}
-                                </p>
-                                <h5 className='Movie-name121'>{movie.name}</h5>
-                            </Link>
-                        ))
-                    ) : (
-                        <p>No movies found.</p>
-                    )}
-                </div>
+                
+                {isLoading ? (
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <p>Loading movies...</p>
+                    </div>                ) : error ? (
+                    <p className="error-message">{error}</p>
+                ) : (
+                    <div className="movie-grid">
+                        {currentMovies.length > 0 ? (
+                            currentMovies.map(movie => (
+                                <Link to={`/movies/${movie._id}`} key={movie._id} className="movie-card">
+                                    <img
+                                        src={movie.image}
+                                        alt={movie.name}
+                                        className="movie-image"
+                                        onError={(e) => {
+                                            e.target.src = '/default-movie.jpg';
+                                            e.target.alt = "Default Movie Image";
+                                        }}
+                                    />
+                                    <p className="published-date2">
+                                        {new Date(movie.createdAt).toLocaleDateString()}
+                                    </p>
+                                    <h5 className='Movie-name121'>{movie.name}</h5>
+                                </Link>
+                            ))
+                        ) : (
+                            <p className="no-movies-message">No movies found.</p>
+                        )}
+                    </div>
+                )}
 
                 <div className="pagination-controls">
                     {currentPage > 1 && <button onClick={prevPage}>Previous Page</button>}
