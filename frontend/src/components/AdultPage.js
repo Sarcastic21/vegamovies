@@ -52,10 +52,24 @@ const AdultPage= () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm]);
-    // Filter movies based on search term
-    const filteredMovies = movies.filter(movie =>
-        movie.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+   const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            setCurrentPage(1); // Reset to first page on Enter key press
+            event.target.blur(); // Blur the input to close the keyboard on mobile
+        }
+    };
+
+    const filteredMovies = movies.filter(movie => {
+        // Normalize movie name by removing spaces and non-alphanumeric characters
+        const normalizedMovieName = movie.name.toLowerCase().replace(/[^a-z0-9]/gi, '');
+        
+        // Normalize the search term in the same way
+        const normalizedSearchTerm = searchTerm.toLowerCase().replace(/[^a-z0-9]/gi, '');
+    
+        // Compare the normalized movie name with the normalized search term
+        return normalizedMovieName.includes(normalizedSearchTerm);
+    });
+
 
     // Calculate the movies to display on the current page
     const indexOfLastMovie = currentPage * moviesPerPage;
@@ -147,11 +161,12 @@ const AdultPage= () => {
                 </div>
             {/* Search bar */}
             <div className="search-container">
-            <input
+           <input
                 type="text"
                 placeholder="What are you looking for?"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleKeyPress} // Listen for Enter key press
                 className="search-bar"
             />
             <button className="search-button">
