@@ -45,10 +45,16 @@ const UserPage = () => {
         }
     };
     // Filter movies based on search term
-    const filteredMovies = movies.filter(movie =>
-        movie.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
+    const filteredMovies = movies.filter(movie => {
+        // Normalize movie name by removing spaces and non-alphanumeric characters
+        const normalizedMovieName = movie.name.toLowerCase().replace(/[^a-z0-9]/gi, '');
+        
+        // Normalize the search term in the same way
+        const normalizedSearchTerm = searchTerm.toLowerCase().replace(/[^a-z0-9]/gi, '');
+    
+        // Compare the normalized movie name with the normalized search term
+        return normalizedMovieName.includes(normalizedSearchTerm);
+    });
     // Calculate the movies to display on the current page
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
